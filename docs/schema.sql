@@ -26,8 +26,8 @@ DROP TABLE IF EXISTS `gardenapp`.`cart` ;
 
 SHOW WARNINGS;
 CREATE TABLE IF NOT EXISTS `gardenapp`.`cart` (
-  `cart_id` INT NOT NULL,
-  `user_id` INT NOT NULL,
+  `cart_id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`cart_id`),
   INDEX `fk_cart_users1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_cart_users1`
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`order_items` (
   INDEX `fk_order_items_orders1_idx` (`order_id` ASC) VISIBLE,
   CONSTRAINT `fk_order_items_orders1`
     FOREIGN KEY (`order_id`)
-    REFERENCES `gardenapp`.`orders` (`oder_id`)
+    REFERENCES `gardenapp`.`orders` (`order_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`orders` (
   `delivery_address` VARCHAR(155) NOT NULL,
   `contact_phone` VARCHAR(45) NOT NULL,
   `delivery_method` VARCHAR(45) NOT NULL,
-  `status` ENUM('CREATED', ' PENDING_PAYMENT', ' PAID', ' IN_TRANSIT', ' DELIVERED', 'CANCELED') NOT NULL,
+  `status` ENUM('CREATED','PENDING_PAYMENT','PAID','IN_TRANSIT','DELIVERED', 'CANCELED') NOT NULL,
   `updated_at` TIMESTAMP NULL,
   PRIMARY KEY (`oder_id`),
   INDEX `fk_orders_users1_idx` (`user_id` ASC) VISIBLE,
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`users` (
   `name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(45) NOT NULL,
   `phone_number` VARCHAR(45) NOT NULL,
-  `password_hash` VARCHAR(45) NOT NULL,
+  `password_hash` VARCHAR(255) NOT NULL,
   `role` ENUM('CLIENT', 'ADMINISTRATOR') NOT NULL,
   PRIMARY KEY (`user_id`),
   INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
