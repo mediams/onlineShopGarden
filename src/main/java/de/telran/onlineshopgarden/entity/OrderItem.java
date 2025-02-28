@@ -1,26 +1,28 @@
 package de.telran.onlineshopgarden.entity;
 
+import jakarta.persistence.*;
+import jakarta.persistence.GenerationType;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
-//@Entity
+@Entity
 @Getter
 @Setter
-//@Table(name = "order_items")
+@Table(name = "order_items")
 public class OrderItem {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
 
-//    @ManyToOne
-//    @JoinColumn(name = "order_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-//    @ManyToOne
-//    @JoinColumn(name = "product_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private int quantity;
