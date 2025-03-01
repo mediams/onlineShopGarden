@@ -23,3 +23,15 @@ VALUES
     (13, 'Shovel', 'Dig into gardening with our sturdy Shovel. Designed for durability and comfort...', 40.0, 5, 'https://assets.leevalley.com/Size4/10115/PG107-radius-ergonomic-stainless-steel-shovel-u-0195.jpg', 34.0),
     (14, 'Rake', 'Maintain a pristine garden with our reliable Rake. Perfect for leaf and debris...', 38.0, 5, 'https://images.ctfassets.net/zma7thmmcinb/46JNtlvxFdhCD2XPHHziLc/31fe4425eff26086a7eb884a4384d85b/find-the-right-rake-plastic-rake.jpg', NULL),
     (15, 'Gardening scissors', 'Precision meets functionality with our Gardening Scissors. Trim and...', 20.0, 5, 'https://cdn.thewirecutter.com/wp-content/uploads/2015/06/pruningshears-2x1-.jpg?auto=webp&quality=75&crop=2:1&width=1024&dpr=2', NULL);
+
+INSERT INTO cart (cart_id, user_id)
+VALUES
+    (1, 1),
+    (2, 2),
+    (3, 5);
+
+INSERT INTO cart_items (cart_item_id, cart_id, product_id, quantity)
+VALUES
+    (1, 1, 1, 3),
+    (2, 2, 2, 2),
+    (3, 3, 7, 7);
