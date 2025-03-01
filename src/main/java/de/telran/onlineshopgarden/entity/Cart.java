@@ -18,7 +18,7 @@ public class Cart {
     private Integer cartId;
     private Integer userId;
 
-    @OneToOne
-    @JoinColumn(name = "users", nullable = false)
-    private Category category;
+//    @OneToOne
+//    @JoinColumn(name = "users", nullable = false)
+//    private Category category;
 }
