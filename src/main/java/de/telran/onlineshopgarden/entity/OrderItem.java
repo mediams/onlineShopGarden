@@ -18,7 +18,7 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderItemId;
+    private Integer orderItemId;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
