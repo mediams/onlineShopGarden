@@ -1,12 +1,15 @@
 package de.telran.onlineshopgarden.entity;
 
 import jakarta.persistence.*;
-import jakarta.persistence.GenerationType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Getter
 @Setter
