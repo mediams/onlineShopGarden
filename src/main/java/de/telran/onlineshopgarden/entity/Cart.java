@@ -17,8 +17,4 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartId;
     private Integer userId;
-
-//    @OneToOne
-//    @JoinColumn(name = "users", nullable = false)
-//    private Category category;
 }

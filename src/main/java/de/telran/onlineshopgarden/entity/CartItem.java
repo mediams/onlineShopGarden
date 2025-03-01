@@ -19,9 +19,4 @@ public class CartItem {
     private Integer cartId;
     private Integer productId;
     private Integer quantity;
-
-    @ManyToOne
-    @JoinColumn(name = "cart_items")
-    private Category category;
-
 }
