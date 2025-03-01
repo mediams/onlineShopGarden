@@ -20,7 +20,7 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    private Integer orderId;
     private String deliveryAddress;
     private String contactPhone;
     private String deliveryMethod;

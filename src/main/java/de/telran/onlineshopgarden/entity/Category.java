@@ -19,10 +19,13 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long categoryId;
+    private Integer categoryId;
 
     @Column(nullable = false)
     private String name;
+
+    @Column(name = "image_url", nullable = false)
+    private String imageUrl;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products;
