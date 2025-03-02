@@ -35,3 +35,37 @@ VALUES
     (1, 1, 1, 3),
     (2, 2, 2, 2),
     (3, 3, 7, 7);
+
+INSERT INTO users (user_id, name, email, phone_number, password_hash, role)
+VALUES
+    (1, 'John Smith', 'john.smith@example.com', '1111111111', 'hashedpassword1', 'CLIENT'),
+    (2, 'Emma Johnson', 'emma.johnson@example.com', '2222222222', 'hashedpassword2', 'CLIENT'),
+    (3, 'Olivia Brown', 'olivia.brown@example.com', '3333333333', 'hashedpassword3', 'CLIENT'),
+    (4, 'Liam Williams', 'liam.williams@example.com', '4444444444', 'hashedpassword4', 'CLIENT'),
+    (5, 'Noah Jones', 'noah.jones@example.com', '5555555555', 'hashedpassword5', 'CLIENT'),
+    (6, 'Sophia Garcia', 'sophia.garcia@example.com', '6666666666', 'hashedpassword6', 'CLIENT'),
+    (7, 'Mason Martinez', 'mason.martinez@example.com', '7777777777', 'hashedpassword7', 'CLIENT'),
+    (8, 'Isabella Miller', 'isabella.miller@example.com', '8888888888', 'hashedpassword8', 'CLIENT'),
+    (9, 'Lucas Davis', 'lucas.davis@example.com', '9999999999', 'hashedpassword9', 'CLIENT'),
+    (10, 'Charlotte Rodriguez', 'charlotte.rodriguez@example.com', '1010101010', 'hashedpassword10', 'CLIENT'),
+    (11, 'Elijah Hernandez', 'elijah.hernandez@example.com', '1112131415', 'hashedpassword11', 'CLIENT'),
+    (12, 'Amelia Wilson', 'amelia.wilson@example.com', '1213141516', 'hashedpassword12', 'CLIENT'),
+    (13, 'Benjamin Anderson', 'benjamin.anderson@example.com', '1314151617', 'hashedpassword13', 'CLIENT'),
+    (14, 'James Thomas', 'james.thomas@example.com', '1415161718', 'hashedpassword14', 'ADMINISTRATOR'),
+    (15, 'William White', 'william.white@example.com', '1516171819', 'hashedpassword15', 'ADMINISTRATOR');
+
+INSERT INTO favorites (user_id, product_id)
+VALUES
+    (1, 10),
+    (2, 4),
+    (2, 15),
+    (3, 6),
+    (3, 13),
+    (3, 10),
+    (4, 9),
+    (4, 1),
+    (5, 11),
+    (6, 2),
+    (6, 13),
+    (7, 11),
+    (7, 15);
