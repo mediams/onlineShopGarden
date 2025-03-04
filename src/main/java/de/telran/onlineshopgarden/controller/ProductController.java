@@ -17,8 +17,8 @@ public class ProductController {
     private final ProductService service;
 
     @Autowired
-    public ProductController(ProductService productService) {
-        this.service = productService;
+    public ProductController(ProductService service) {
+        this.service = service;
     }
 
     @GetMapping("/all")
@@ -26,10 +26,9 @@ public class ProductController {
         return service.getAll();
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("{productId}")
     public ResponseEntity<Product> getById(@PathVariable Integer productId) {
-        return ResponseEntity.ok(service.findById(productId));
+        return ResponseEntity.ok(service.getById(productId));
     }
-
 
 }

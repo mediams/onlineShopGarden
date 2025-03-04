@@ -22,7 +22,7 @@ public class CategoryService {
         return repository.findAll();
     }
 
-    public Category findById(Integer id) {
+    public Category getById(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }

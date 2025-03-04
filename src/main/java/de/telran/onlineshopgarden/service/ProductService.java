@@ -22,7 +22,7 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public Product findById(Integer id) {
+    public Product getById(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
     }

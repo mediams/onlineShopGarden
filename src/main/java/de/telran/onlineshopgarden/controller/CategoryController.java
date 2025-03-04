@@ -17,18 +17,17 @@ public class CategoryController {
     private final CategoryService service;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
-        this.service = categoryService;
+    public CategoryController(CategoryService service) {
+        this.service = service;
     }
 
-    @GetMapping("/all")
-    public List<Category> getAll() {
-        return service.getAll();
+    @GetMapping
+    public ResponseEntity<List<Category>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Category> getById(@PathVariable Integer id) {
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(service.getById(id));
     }
 
 }

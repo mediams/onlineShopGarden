@@ -9,7 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +26,7 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
+    @Column(columnDefinition = "text")
     private String description;
 
     @Column(nullable = false)
@@ -40,8 +41,8 @@ public class Product {
 
     @CreationTimestamp
     //TODO    @Column(updatable = false, nullable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 }
