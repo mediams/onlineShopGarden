@@ -24,7 +24,7 @@ public class CartItemController {
 
     @GetMapping("{id}")
     public Optional<CartItem> getById(@PathVariable Integer id) {
-        Optional<CartItem> cartItem = service.getById(id);
-        return cartItem;
+         return service.getById(id);
+       
     }
 }
