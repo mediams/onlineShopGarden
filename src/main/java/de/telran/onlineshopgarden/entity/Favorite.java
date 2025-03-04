@@ -13,10 +13,10 @@ public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int favoriteId;
+    private Integer favoriteId;
 
-    private int userId;
+    private Integer userId;
 
-    private int productId;
+    private Integer productId;
 
 }
