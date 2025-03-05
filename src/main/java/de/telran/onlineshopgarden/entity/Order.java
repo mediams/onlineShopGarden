@@ -1,14 +1,16 @@
 package de.telran.onlineshopgarden.entity;
 
+import de.telran.onlineshopgarden.entity.enums.DeliveryMethod;
 import de.telran.onlineshopgarden.entity.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.Instant;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,18 +25,19 @@ public class Order {
     private Integer orderId;
     private String deliveryAddress;
     private String contactPhone;
-    private String deliveryMethod;
+
+    @Enumerated(EnumType.STRING)
+    private DeliveryMethod deliveryMethod;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @CreationTimestamp
+    //TODO    @Column(updatable = false, nullable = false)
+    private Instant createdAt;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
+    @UpdateTimestamp
+    private Instant updatedAt;
 
-    //    @ManyToOne
-    //    @JoinColumn(name = "user_id", nullable = false)
-    //    private User user;
+    private Integer user_id;
 }
