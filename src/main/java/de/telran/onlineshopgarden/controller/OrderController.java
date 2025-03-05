@@ -27,6 +27,7 @@ public class OrderController {
     }
 
     @GetMapping("{orderId}")
+    //TODO return STATUS
     public ResponseEntity<Order> getById(@PathVariable Integer orderId) {
         return ResponseEntity.ok(service.getById(orderId));
     }

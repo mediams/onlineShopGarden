@@ -72,7 +72,7 @@ VALUES
 
 INSERT INTO orders (order_id, delivery_address, contact_phone, delivery_method, status, created_at, updated_at, user_id)
 VALUES
-    (1, '123 Main St, City', '+49123456789', 'DHL', 1, NOW(), NOW(), 1);
+    (1, '123 Main St, City', '+49123456789', 1, 1, NOW(), NOW(), 1);
 
 INSERT INTO order_items (order_item_id, order_id, product_id, quantity, price_at_purchase)
 VALUES
