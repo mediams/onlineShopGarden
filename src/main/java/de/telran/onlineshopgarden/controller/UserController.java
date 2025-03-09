@@ -1,5 +1,8 @@
 package de.telran.onlineshopgarden.controller;
 
+import de.telran.onlineshopgarden.dto.UserCreateDto;
+import de.telran.onlineshopgarden.dto.UserDto;
+import de.telran.onlineshopgarden.dto.UserUpdateDto;
 import de.telran.onlineshopgarden.entity.User;
 import de.telran.onlineshopgarden.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -21,18 +25,18 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public List<User> getAll() {
+    public List<UserDto> getAll() {
         return service.getAll();
     }
 
-    @GetMapping("{id}")
-    public User getById(@PathVariable Integer id) {
-        return service.getById(id);
+    @GetMapping("{userId}")
+    public UserDto getById(@PathVariable Integer userId) {
+        return service.getById(userId);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return new ResponseEntity<>(service.create(user), HttpStatus.CREATED);
+    public ResponseEntity<UserDto> register(@RequestBody UserCreateDto dto) {
+        return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -41,15 +45,14 @@ public class UserController {
         throw new UnsupportedOperationException();
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody User user) {
-        service.update(id, user);
-        return ResponseEntity.ok().build();
+    @PutMapping("{userId}")
+    public ResponseEntity<UserDto> update(@PathVariable Integer userId, @RequestBody UserUpdateDto dto) {
+        return new ResponseEntity<>(service.update(userId, dto), HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        service.delete(id);
+    @DeleteMapping("{userId}")
+    public ResponseEntity<Void> delete(@PathVariable Integer userId) {
+        service.delete(userId);
         return ResponseEntity.ok().build();
     }
 }
