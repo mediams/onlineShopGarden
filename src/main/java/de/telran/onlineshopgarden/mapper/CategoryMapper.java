@@ -12,14 +12,12 @@ import java.net.URL;
 @Mapper(componentModel = "spring",uses = CategoryMapper.class)
 public interface CategoryMapper {
 
-    @Mapping(target = "categoryId", expression = "java(category.getCategoryId().toString())")
-    @Mapping(target = "imageUrl", expression = "java(category.getImageUrl().toString())")
-    CategoryDto EntityToDto(Category category);
-
-    @Named( "stringToUrl")
-    @Mapping(target = "categoryId", expression = "java(Integer.parseInt(categoryDto.getCategoryId()))")
     @Mapping(target = "imageUrl", source = "imageUrl", qualifiedByName = "stringToUrl")
-    Category DtoToEntity(CategoryDto categoryDto);
+    Category dtoToEntity(CategoryDto categoryDto);
+
+    @Mapping(target = "imageUrl", source = "imageUrl", qualifiedByName = "urlToString")
+    CategoryDto entityToDto(Category category);
+
 
     @Named("stringToUrl")
     default URL stringToUrl(String imageUrl) {
@@ -28,5 +26,10 @@ public interface CategoryMapper {
         } catch (MalformedURLException e) {
             throw new RuntimeException("Invalid URL format: " + imageUrl, e);
         }
+    }
+
+    @Named("urlToString")
+    default String urlToString(URL imageUrl) {
+        return imageUrl.toString();
     }
 }

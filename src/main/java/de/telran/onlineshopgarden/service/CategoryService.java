@@ -2,16 +2,12 @@ package de.telran.onlineshopgarden.service;
 
 import de.telran.onlineshopgarden.dto.CategoryDto;
 import de.telran.onlineshopgarden.entity.Category;
-import de.telran.onlineshopgarden.exception.BadRequestException;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.CategoryMapper;
 import de.telran.onlineshopgarden.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.List;
 
 @Service
@@ -36,7 +32,7 @@ public class CategoryService {
     }
 
     public Category create(CategoryDto dto) {
-        return repository.save(mapper.DtoToEntity(dto));
+        return repository.save(mapper.dtoToEntity(dto));
 
     }
 
