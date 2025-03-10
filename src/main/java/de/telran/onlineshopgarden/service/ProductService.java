@@ -16,7 +16,6 @@ public class ProductService {
     private final ProductMapper mapper;
 
     @Autowired
-
     public ProductService(ProductRepository repository, ProductMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
@@ -31,5 +30,4 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", id)));
         return mapper.entityToDto(product);
     }
-
 }
