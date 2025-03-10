@@ -41,8 +41,8 @@ public class ProductService {
     @Transactional
     public ProductDto create(ProductCreateDto dto) {
         Product product = mapper.createDtoToEntity(dto);
-        if (dto.getCategory() != null) {
-            Category category = categoryRepository.getReferenceById(dto.getCategory());
+        if (dto.getCategoryId() != null) {
+            Category category = categoryRepository.getReferenceById(dto.getCategoryId());
             product.setCategoryId(category.getCategoryId());
         }
         Product savedProduct = repository.save(product);
@@ -50,17 +50,22 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDto update(ProductCreateDto dto, Integer id) {
-        Optional<Product> optional = repository.findById(id);
+    public ProductDto update(ProductDto dto, String id) {
+        Optional<Product> optional = repository.findById(Integer.parseInt(id));
         if (optional.isPresent()) {
-            Product product = mapper.createDtoToEntity(dto);
-            if (dto.getCategory() != null) {
-                Category category = categoryRepository.getReferenceById(dto.getCategory());
+            Product product = optional.get();
+            product.setName(dto.getName());
+            product.setDescription(dto.getDescription());
+            product.setPrice(dto.getPrice());
+            if (dto.getCategoryId() != null) {
+                Category category = categoryRepository.getReferenceById(dto.getCategoryId());
                 product.setCategoryId(category.getCategoryId());
             }
+
             Product saved = repository.save(product);
             return mapper.entityToDto(saved);
         }
+
         throw new ResourceNotFoundException(String.format("Product with id %d not found", id));
     }
 }

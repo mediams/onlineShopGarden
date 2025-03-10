@@ -37,8 +37,7 @@ public class ProductController {
     }
 
     @PutMapping("{productId}")
-    public ResponseEntity<ProductDto> update(@PathVariable Integer productId, @Valid @RequestBody ProductCreateDto dto) {
-        System.out.println("Updating product " + productId);
+    public ResponseEntity<ProductDto> update(@PathVariable String productId, @Valid @RequestBody ProductDto dto) {
         return new ResponseEntity<>(service.update(dto, productId), HttpStatus.OK);
     }
 

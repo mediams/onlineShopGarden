@@ -1,5 +1,6 @@
 package de.telran.onlineshopgarden.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ public class ProductDto {
     private BigDecimal price;
 
     @NotNull(message = "CategoryId is required")
+    @JsonProperty("category")
     private Integer categoryId;
 
     private String imageUrl;
