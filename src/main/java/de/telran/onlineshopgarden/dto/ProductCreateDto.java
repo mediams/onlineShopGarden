@@ -10,13 +10,11 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class ProductDto {
-
-    private String productId;
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProductCreateDto {
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -29,9 +27,8 @@ public class ProductDto {
     private BigDecimal price;
 
     @NotNull(message = "CategoryId is required")
-    private Integer categoryId;
+    private Integer category;
 
     private String imageUrl;
 
-    private BigDecimal discountPrice;
 }
