@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -50,22 +49,22 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDto update(ProductDto dto, String id) {
-        Optional<Product> optional = repository.findById(Integer.parseInt(id));
-        if (optional.isPresent()) {
-            Product product = optional.get();
-            product.setName(dto.getName());
-            product.setDescription(dto.getDescription());
-            product.setPrice(dto.getPrice());
-            if (dto.getCategoryId() != null) {
-                Category category = categoryRepository.getReferenceById(dto.getCategoryId());
-                product.setCategoryId(category.getCategoryId());
-            }
+    public ProductDto update(ProductDto dto, Integer id) {
+        Product product = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", id)));
 
-            Product saved = repository.save(product);
-            return mapper.entityToDto(saved);
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
+
+        if (dto.getCategoryId() != null) {
+            Category category = categoryRepository.findById(dto.getCategoryId())
+                    .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with id %d not found", dto.getCategoryId())));
+            product.setCategoryId(category.getCategoryId());
         }
 
-        throw new ResourceNotFoundException(String.format("Product with id %d not found", id));
+        Product saved = repository.save(product);
+        return mapper.entityToDto(saved);
     }
+
 }

@@ -17,8 +17,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ProductCreateDto {
 
-    private String productId;
-
     @NotBlank(message = "Name is required")
     private String name;
 
