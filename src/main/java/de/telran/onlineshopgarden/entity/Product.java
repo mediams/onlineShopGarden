@@ -32,10 +32,9 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(name = "category_id", nullable = false)
+    @Column(nullable = false)
     private Integer categoryId;
 
-    @Column
     private String imageUrl;
 
     private BigDecimal discountPrice;
