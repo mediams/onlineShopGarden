@@ -13,10 +13,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartItemId;
-    private Integer cartId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
+
     private Integer productId;
+
     private Integer quantity;
 }

@@ -1,11 +1,12 @@
 package de.telran.onlineshopgarden.service;
 
+import de.telran.onlineshopgarden.dto.CartItemAddDto;
 import de.telran.onlineshopgarden.entity.Cart;
+import de.telran.onlineshopgarden.entity.CartItem;
 import de.telran.onlineshopgarden.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -17,12 +18,21 @@ public class CartService {
         this.repository = repository;
     }
 
-    public List<Cart> getAll() {
-        return repository.findAll();
-    }
-    public Optional<Cart> getById(Integer id) {
-        return repository.findById(id);
-    }
+    @Transactional
+    public void addItem(CartItemAddDto dto, int userId) {
+        final Cart cart = repository.findCartByUserId(userId)
+                .orElse(new Cart(userId));
 
+        Integer productId = Integer.parseInt(dto.getProductId());
 
+        cart.getItems().stream()
+                .filter(i -> i.getProductId().equals(productId))
+                .findFirst()
+                .ifPresentOrElse(
+                        i -> i.setQuantity(i.getQuantity() + dto.getQuantity()),
+                        () -> cart.getItems().add(new CartItem(null, cart, productId, dto.getQuantity()))
+                );
+
+        repository.save(cart);
+    }
 }
