@@ -24,11 +24,11 @@ public class Category {
     @Column(nullable = false)
     private Integer categoryId;
 
-    @NotBlank(message = "{validation.category.name}")
+   @Column(nullable = false, unique = true)
     @Size(min = 3, max = 100, message = "{validation.category.nameSize}")
     private String name;
 
-    @NotBlank(message = "{validation.category.imageUrlNotBlank}")
+    @Column(nullable = false)
     @Pattern(regexp = "^(https?://)?([\\w\\d.-]+)\\.([a-z]{2,6}\\.?)([/\\w\\d.-]*)*/?$",
             message = "validation.category.imageUrlNotValid")
     private String imageUrl;

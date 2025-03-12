@@ -9,12 +9,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
-
 import java.util.List;
 
 @Service
-@Validated
 @Transactional(readOnly = true)
 public class CategoryService {
     private final CategoryRepository repository;
@@ -37,13 +34,13 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryDto create(@Valid CategoryDto dto) {
+    public CategoryDto create(CategoryDto dto) {
         Category category = mapper.dtoToEntity(dto);
         return mapper.entityToDto(repository.save(category));
     }
 
     @Transactional
-    public CategoryDto update(Integer id, @Valid CategoryDto dto) {
+    public CategoryDto update(Integer id, CategoryDto dto) {
         Category category = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with id %d not found", id)));
         category.setName(dto.getName());
