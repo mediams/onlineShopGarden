@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -25,4 +27,6 @@ public class Category {
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 }

@@ -32,8 +32,9 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false)
-    private Integer categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     private String imageUrl;
 

@@ -2,7 +2,6 @@ package de.telran.onlineshopgarden.service;
 
 import de.telran.onlineshopgarden.dto.ProductCreateDto;
 import de.telran.onlineshopgarden.dto.ProductDto;
-import de.telran.onlineshopgarden.entity.Category;
 import de.telran.onlineshopgarden.entity.Product;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.ProductMapper;
@@ -40,31 +39,21 @@ public class ProductService {
     @Transactional
     public ProductDto create(ProductCreateDto dto) {
         Product product = mapper.createDtoToEntity(dto);
-        if (dto.getCategoryId() != null) {
-            Category category = categoryRepository.getReferenceById(dto.getCategoryId());
-            product.setCategoryId(category.getCategoryId());
-        }
-        Product savedProduct = repository.save(product);
-        return mapper.entityToDto(savedProduct);
+        product.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
+        return mapper.entityToDto(repository.save(product));
     }
 
     @Transactional
-    public ProductDto update(ProductDto dto, Integer id) {
-        Product product = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", id)));
-
-        product.setName(dto.getName());
-        product.setDescription(dto.getDescription());
-        product.setPrice(dto.getPrice());
-
-        if (dto.getCategoryId() != null) {
-            Category category = categoryRepository.findById(dto.getCategoryId())
-                    .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with id %d not found", dto.getCategoryId())));
-            product.setCategoryId(category.getCategoryId());
+    public ProductDto update(Integer id, ProductDto dto) {
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException(String.format("Product with id %d not found", id));
         }
 
-        Product saved = repository.save(product);
-        return mapper.entityToDto(saved);
+        Product product = mapper.updateDtoToEntity(dto);
+        product.setProductId(id);
+        product.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
+
+        return mapper.entityToDto(repository.save(product));
     }
 
 }

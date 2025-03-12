@@ -1,13 +1,14 @@
 package de.telran.onlineshopgarden.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 
@@ -19,21 +20,23 @@ public class ProductDto {
 
     private String productId;
 
-    @NotBlank(message = "Name is required")
+    @NotBlank(message = "{validation.product.name}")
+    @Pattern(regexp = "[A-Za-z ]{1,45}", message = "{validation.product.name}")
     private String name;
 
-    @NotBlank(message = "Description is required")
+    @Length(max = 1500, message ="{validation.product.description}")
     private String description;
 
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.01", message = "Price must be greater than zero")
+    @NotNull(message = "{validation.product.price}")
+    @DecimalMin(value = "0.01", message = "{validation.product.price}")
     private BigDecimal price;
 
-    @NotNull(message = "CategoryId is required")
-    @JsonProperty("category")
+    @NotNull(message = "{validation.product.categoryId}")
     private Integer categoryId;
 
-    private String imageUrl;
+    @NotNull(message = "{validation.product.imageNotNull}")
+    @Pattern(regexp = "^https://[^\\s/$.?#][^\\s]{0,140}\\.(jpg|jpeg|png)(\\?.*)?$", message = "{validation.product.imageValidation}")
+    private String image;
 
     private BigDecimal discountPrice;
 }
