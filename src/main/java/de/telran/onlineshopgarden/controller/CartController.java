@@ -1,11 +1,10 @@
 package de.telran.onlineshopgarden.controller;
 
-import de.telran.onlineshopgarden.entity.Cart;
+import de.telran.onlineshopgarden.dto.CartItemAddDto;
 import de.telran.onlineshopgarden.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cart")
@@ -17,16 +16,10 @@ public class CartController {
         this.service = service;
     }
 
-    @GetMapping("/all")
-    public List<Cart> getAll() {
-        return service.getAll();
+    @PostMapping
+    public ResponseEntity<Void> addItem(@RequestBody CartItemAddDto dto, @RequestParam int userId) {
+        // todo: replace with real userId
+        service.addItem(dto, userId);
+        return ResponseEntity.ok().build();
     }
-
-    @GetMapping("{id}")
-    public Optional<Cart> getById(@PathVariable Integer id) {
-        return service.getById(id);
-    }
-
-
 }
-
