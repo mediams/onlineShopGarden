@@ -12,13 +12,11 @@ import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class ProductDto {
-
-    private String productId;
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProductCreateDto {
 
     @NotBlank(message = "{validation.product.name}")
     @Pattern(regexp = "[A-Za-z ]{1,45}", message = "{validation.product.name}")
@@ -31,12 +29,10 @@ public class ProductDto {
     @DecimalMin(value = "0.01", message = "{validation.product.price}")
     private BigDecimal price;
 
-    @NotNull(message = "{validation.product.categoryId}")
+    @NotNull(message = "validation.product.categoryId")
     private Integer categoryId;
 
     @NotNull(message = "{validation.product.imageNotNull}")
     @Pattern(regexp = "^https://[^\\s/$.?#][^\\s]{0,140}\\.(jpg|jpeg|png)(\\?.*)?$", message = "{validation.product.imageValidation}")
     private String image;
-
-    private BigDecimal discountPrice;
 }
