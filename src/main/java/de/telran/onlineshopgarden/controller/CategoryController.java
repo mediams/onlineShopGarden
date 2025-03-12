@@ -2,6 +2,7 @@ package de.telran.onlineshopgarden.controller;
 
 import de.telran.onlineshopgarden.dto.CategoryDto;
 import de.telran.onlineshopgarden.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,12 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto dto) {
+    public ResponseEntity<CategoryDto> create(@Valid @RequestBody CategoryDto dto) {
         return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
     @PutMapping("{categoryId}")
-    public ResponseEntity<CategoryDto> update(@PathVariable Integer categoryId, @RequestBody CategoryDto dto) {
+    public ResponseEntity<CategoryDto> update(@PathVariable Integer categoryId, @Valid @RequestBody CategoryDto dto) {
         return ResponseEntity.ok(service.update(categoryId, dto));
     }
 }

@@ -21,10 +21,10 @@ public class Category {
     @Column(nullable = false)
     private Integer categoryId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(name = "image_url", nullable = false)
+    @Column(nullable = false)
     private String imageUrl;
 
     @OneToMany(mappedBy = "category")
