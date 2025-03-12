@@ -5,7 +5,6 @@ import de.telran.onlineshopgarden.entity.Category;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.CategoryMapper;
 import de.telran.onlineshopgarden.repository.CategoryRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
