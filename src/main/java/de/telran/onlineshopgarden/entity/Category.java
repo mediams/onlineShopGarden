@@ -24,13 +24,13 @@ public class Category {
     @Column(nullable = false)
     private Integer categoryId;
 
-    @NotBlank(message = "Category name must not be empty")
-    @Size(min = 3, max = 100, message = "Category name must be between 3 and 100 characters")
+    @NotBlank(message = "{validation.category.name}")
+    @Size(min = 3, max = 100, message = "{validation.category.nameSize}")
     private String name;
 
-    @NotBlank(message = "URL image must not be empty")
+    @NotBlank(message = "{validation.category.imageUrlNotBlank}")
     @Pattern(regexp = "^(https?://)?([\\w\\d.-]+)\\.([a-z]{2,6}\\.?)([/\\w\\d.-]*)*/?$",
-            message = "Invalid URL image format")
+            message = "validation.category.imageUrlNotValid")
     private String imageUrl;
 
     @OneToMany(mappedBy = "category")
