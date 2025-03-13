@@ -19,11 +19,8 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderItemId;
-
-    private Integer order_id;
-
-    private Integer product_id;
-
+    private Integer orderId;
+    private Integer productId;
     private int quantity;
     private BigDecimal priceAtPurchase;
 }
