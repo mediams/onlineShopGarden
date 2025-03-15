@@ -15,8 +15,11 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer favoriteId;
 
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private Integer productId;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 }
