@@ -1,9 +1,7 @@
 package de.telran.onlineshopgarden.controller;
 
-import de.telran.onlineshopgarden.dto.OrderDto;
 import de.telran.onlineshopgarden.dto.OrderCreateDto;
 import de.telran.onlineshopgarden.dto.OrderDto;
-import de.telran.onlineshopgarden.entity.Order;
 import de.telran.onlineshopgarden.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +28,7 @@ public class OrderController {
 
     @GetMapping("{orderId}")
     //TODO return STATUS
-    public ResponseEntity<Order> getById(@PathVariable Integer orderId) {
+    public ResponseEntity<OrderDto> getById(@PathVariable Integer orderId) {
         return ResponseEntity.ok(service.getById(orderId));
     }
 

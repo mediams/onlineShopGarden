@@ -1,10 +1,12 @@
 package de.telran.onlineshopgarden.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import de.telran.onlineshopgarden.entity.enums.DeliveryMethod;
 import de.telran.onlineshopgarden.entity.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,7 +19,6 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "orders")
-@ToString
 public class Order {
 
     @Id
@@ -45,7 +46,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
 }
