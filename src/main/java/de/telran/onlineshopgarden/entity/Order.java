@@ -1,16 +1,15 @@
 package de.telran.onlineshopgarden.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import de.telran.onlineshopgarden.entity.enums.DeliveryMethod;
 import de.telran.onlineshopgarden.entity.enums.OrderStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,12 +17,15 @@ import java.time.Instant;
 @Getter
 @Setter
 @Table(name = "orders")
+@ToString
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer orderId;
+
     private String deliveryAddress;
+
     private String contactPhone;
 
     @Enumerated(EnumType.STRING)
@@ -39,5 +41,11 @@ public class Order {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
+
 }
