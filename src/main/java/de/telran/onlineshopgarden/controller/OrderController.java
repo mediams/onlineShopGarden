@@ -6,32 +6,34 @@ import de.telran.onlineshopgarden.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 
-    private final OrderService orderService;
+    private final OrderService service;
 
     @Autowired
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderController(OrderService service) {
+        this.service = service;
     }
 
     @GetMapping("/all")
     public List<Order> getAll() {
-        return orderService.getAll();
+        return service.getAll();
+    }
+
+    @GetMapping("{orderId}")
+    //TODO return STATUS
+    public ResponseEntity<Order> getById(@PathVariable Integer orderId) {
+        return ResponseEntity.ok(service.getById(orderId));
     }
 
     @GetMapping("/history/{userId}")
     public ResponseEntity<List<OrderDto>> getOrderHistory(@PathVariable Integer userId) {
-        List<OrderDto> orderHistory = orderService.getOrderHistory(userId);
+        List<OrderDto> orderHistory = service.getOrderHistory(userId);
         return ResponseEntity.ok(orderHistory);
-    }
-
-    @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getById(@PathVariable Integer orderId) {
-        return ResponseEntity.ok(orderService.getById(orderId));
     }
 }
