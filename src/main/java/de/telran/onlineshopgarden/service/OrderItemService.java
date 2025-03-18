@@ -1,6 +1,6 @@
 package de.telran.onlineshopgarden.service;
 
-import de.telran.onlineshopgarden.dto.OrderItemDto;
+import de.telran.onlineshopgarden.dto.OrderItemFullDto;
 import de.telran.onlineshopgarden.entity.OrderItem;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.OrderItemMapper;
@@ -21,13 +21,13 @@ public class OrderItemService {
         this.mapper = mapper;
     }
 
-    public List<OrderItemDto> getAll() {
-        return mapper.entityListToDtoList(repository.findAll());
+    public List<OrderItemFullDto> getAll() {
+        return mapper.entityListToFullDtoList(repository.findAll());
     }
 
-    public OrderItemDto getById(int id) {
+    public OrderItemFullDto getById(int id) {
         OrderItem orderItem = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Orderitem with id %d not found", id)));
-        return mapper.entityToDto(orderItem);
+        return mapper.entityToFullDto(orderItem);
     }
 }

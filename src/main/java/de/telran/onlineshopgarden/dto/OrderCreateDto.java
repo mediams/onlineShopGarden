@@ -14,6 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderCreateDto {
     private List<OrderItemDto> items;
+
     private String deliveryAddress;
+
     private DeliveryMethod deliveryMethod;
+
+    private String contactPhone;
 }

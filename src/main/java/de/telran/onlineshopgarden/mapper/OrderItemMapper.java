@@ -1,6 +1,7 @@
 package de.telran.onlineshopgarden.mapper;
 
 import de.telran.onlineshopgarden.dto.OrderItemDto;
+import de.telran.onlineshopgarden.dto.OrderItemFullDto;
 import de.telran.onlineshopgarden.entity.OrderItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,11 +13,8 @@ public interface OrderItemMapper {
 
     OrderItemDto entityToDto(OrderItem entity);
 
+    @Mapping(target = "orderId", source = "order.orderId")
+    OrderItemFullDto entityToFullDto(OrderItem entity);
 
-    @Mapping(target = "priceAtPurchase", ignore = true)
-    @Mapping(target = "orderItemId", ignore = true)
-    @Mapping(target = "order", ignore = true)
-    OrderItem dtoToEntity(OrderItemDto dto);
-
-    List<OrderItemDto> entityListToDtoList(List<OrderItem> entities);
+    List<OrderItemFullDto> entityListToFullDtoList(List<OrderItem> entities);
 }

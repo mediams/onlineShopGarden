@@ -21,9 +21,6 @@ public interface OrderMapper {
     @Mapping(target = "orderId", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "deliveryAddress", source = "deliveryAddress")
-    @Mapping(target = "deliveryMethod", source = "deliveryMethod")
-    @Mapping(target = "contactPhone", ignore = true)
     Order createDtoToEntity(OrderCreateDto orderCreateDto);
 
     List<OrderDto> entityListToDtoList(List<Order> orders);
