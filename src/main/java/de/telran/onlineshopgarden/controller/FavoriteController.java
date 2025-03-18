@@ -1,7 +1,6 @@
 package de.telran.onlineshopgarden.controller;
 
-import de.telran.onlineshopgarden.entity.Product;
-import de.telran.onlineshopgarden.entity.Favorite;
+import de.telran.onlineshopgarden.dto.ProductDto;
 import de.telran.onlineshopgarden.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,26 +20,24 @@ public class FavoriteController {
         this.service = service;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Favorite>> getAll() {
-        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
-    }
-
-    @PostMapping("/{userId}/{productId}")
-    public ResponseEntity<String> addToFavorites(@PathVariable Integer userId, @PathVariable Integer productId) {
+    @PostMapping
+    public ResponseEntity<Void> addToFavorites(@RequestParam Integer userId, @RequestParam Integer productId) {
+        // TODO: JWT аутентификация
         service.addToFavorites(userId, productId);
-        return new ResponseEntity<>("Item is added to favorites", HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Product>> getUserFavorites(@PathVariable Integer userId) {
-        List<Product> favorites = service.getFavoriteProducts(userId);
+    @GetMapping
+    public ResponseEntity<List<ProductDto>> getUserFavorites(@RequestParam Integer userId) {
+        // TODO: JWT аутентификация
+        List<ProductDto> favorites = service.getFavoriteProducts(userId);
         return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}/{productId}")
-    public ResponseEntity<String> removeFromFavorites(@PathVariable Integer userId, @PathVariable Integer productId) {
+    @DeleteMapping
+    public ResponseEntity<Void> removeFromFavorites(@RequestParam Integer userId, @RequestParam Integer productId) {
+        // TODO: JWT аутентификация
         service.removeFromFavorites(userId, productId);
-        return new ResponseEntity<>("Item is deleted from favorites", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
