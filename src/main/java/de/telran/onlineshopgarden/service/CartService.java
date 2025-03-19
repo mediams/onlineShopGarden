@@ -4,10 +4,12 @@ import de.telran.onlineshopgarden.dto.CartDto;
 import de.telran.onlineshopgarden.dto.CartItemAddDto;
 import de.telran.onlineshopgarden.entity.Cart;
 import de.telran.onlineshopgarden.entity.CartItem;
+import de.telran.onlineshopgarden.entity.User;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.CartItemMapper;
 import de.telran.onlineshopgarden.mapper.CartMapper;
 import de.telran.onlineshopgarden.repository.CartRepository;
+import de.telran.onlineshopgarden.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,17 +23,22 @@ public class CartService {
     private final CartMapper mapper;
     private final CartItemMapper cartItemMapper;
 
+    private final UserRepository userRepository;
+
     @Autowired
-    public CartService(CartRepository repository, CartMapper mapper, CartItemMapper cartItemMapper) {
+    public CartService(CartRepository repository, CartMapper mapper, CartItemMapper cartItemMapper, UserRepository userRepository) {
         this.repository = repository;
         this.mapper = mapper;
         this.cartItemMapper = cartItemMapper;
+        this.userRepository = userRepository;
     }
 
     @Transactional
     public void addItem(CartItemAddDto dto, int userId) {
-        final Cart cart = repository.findCartByUserId(userId)
-                .orElse(new Cart(userId));
+        User user = userRepository.getReferenceById(userId);
+
+        final Cart cart = repository.findCartByUser(user)
+                .orElse(new Cart(user));
 
         CartItem cartItem = cartItemMapper.dtoToEntity(dto);
 
@@ -47,10 +54,9 @@ public class CartService {
     }
 
     public CartDto getByUserId(Integer userId) {
-        Optional<Cart> optional = repository.findCartByUserId(userId);
-        if (optional.isEmpty()) {
-            throw new ResourceNotFoundException(String.format("Cart by user with id %d not found", userId));
-        }
-        return mapper.entityToDto(optional.get());
+        User user = userRepository.getReferenceById(userId);
+        return repository.findCartByUser(user)
+                .map(mapper::entityToDto)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Cart by user with id %d not found", userId)));
     }
 }

@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 public class CartDto {
 
-    private Integer cartId;
+    private String cartId;
 
-    private Integer userId;
+    private String userId;
 
     private List<CartItemAddDto> items;
 }
