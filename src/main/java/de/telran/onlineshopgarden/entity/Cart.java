@@ -21,12 +21,14 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer cartId;
 
-    private Integer userId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> items = new ArrayList<>();
 
-    public Cart(Integer userId) {
-        this.userId = userId;
+    public Cart(User user) {
+        this.user = user;
     }
 }
