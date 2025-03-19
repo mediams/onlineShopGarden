@@ -2,7 +2,12 @@ package de.telran.onlineshopgarden.entity;
 
 import de.telran.onlineshopgarden.entity.enums.Role;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -32,4 +37,6 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 }

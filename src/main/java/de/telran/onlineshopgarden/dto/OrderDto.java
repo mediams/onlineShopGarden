@@ -2,7 +2,12 @@ package de.telran.onlineshopgarden.dto;
 
 import de.telran.onlineshopgarden.entity.enums.DeliveryMethod;
 import de.telran.onlineshopgarden.entity.enums.OrderStatus;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,4 +20,7 @@ public class OrderDto {
     private String contactPhone;
     private DeliveryMethod deliveryMethod;
     private OrderStatus status;
+
+
+    private List<OrderItemDto> items;
 }
