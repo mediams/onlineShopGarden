@@ -23,13 +23,12 @@ public class OrderCreateDto {
     private List<OrderItemDto> items;
 
     @NotNull(message = "{validation.order.deliveryAddressNotNull}")
-    @Size(min = 5, max = 100, message = "{validation.order.deliveryAddressSize}")
+    @Pattern(regexp = "^(?!\\s)(?!.*\\s{2,})[A-ZÄÖÜЁА-Я][\\p{L}0-9.,'\\-\\s]{4,99}$", message = "{validation.order.deliveryAddressPattern}")
     private String deliveryAddress;
 
-    @NotNull(message = "{validation.order.deliveryMethodNotNull}")
     private DeliveryMethod deliveryMethod;
 
     @NotBlank(message = "{validation.order.contactPhoneNotBlank}")
-    @Pattern(regexp = "^\\+?[0-9\\- ]{7,20}$", message = "{validation.order.contactPhonePattern}")
+    @Pattern(regexp = "^(?!\\s)(?!.*\\s{2,})\\+?[0-9][0-9\\- ]{6,19}$", message = "{validation.order.contactPhonePattern}")
     private String contactPhone;
 }
