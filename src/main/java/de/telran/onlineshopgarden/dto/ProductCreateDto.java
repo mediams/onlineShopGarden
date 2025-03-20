@@ -35,4 +35,7 @@ public class ProductCreateDto {
     @NotNull(message = "{validation.product.imageNotNull}")
     @Pattern(regexp = "^https://[^\\s/$.?#][^\\s]{0,140}\\.(jpg|jpeg|png)(\\?.*)?$", message = "{validation.product.imageValidation}")
     private String image;
+
+    @DecimalMin(value = "0.0", inclusive = true, message = "{validation.product.discountPrice}")
+    private BigDecimal discountPrice;
 }

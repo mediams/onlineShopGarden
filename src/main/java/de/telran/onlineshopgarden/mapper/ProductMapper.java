@@ -17,7 +17,6 @@ public interface ProductMapper {
 
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "imageUrl", source = "image")
-    @Mapping(target = "discountPrice", ignore = true)
     @Mapping(target = "productId", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
