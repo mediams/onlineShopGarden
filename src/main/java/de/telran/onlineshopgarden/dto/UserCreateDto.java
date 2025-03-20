@@ -20,7 +20,7 @@ public class UserCreateDto {
     private String name;
 
     @NotBlank(message = "Email must not be blank")
-    @Email(message = "Invalid email format")
+    @Email(regexp = "^[a-zA-Z][\\w.-]*@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "Invalid email format")
     private String email;
 
     @NotBlank(message = "Phone number must not be blank")
