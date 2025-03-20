@@ -36,6 +36,6 @@ public class CartController {
     public ResponseEntity<Void> deleteByUserId(@RequestParam Integer userId) {
         //todo: replace with real userId
         service.deleteByUserId(userId);
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok().build();
     }
 }
