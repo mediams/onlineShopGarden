@@ -3,15 +3,14 @@ package de.telran.onlineshopgarden.controller;
 import de.telran.onlineshopgarden.dto.UserCreateDto;
 import de.telran.onlineshopgarden.dto.UserDto;
 import de.telran.onlineshopgarden.dto.UserUpdateDto;
-import de.telran.onlineshopgarden.entity.User;
 import de.telran.onlineshopgarden.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -35,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserCreateDto dto) {
+    public ResponseEntity<UserDto> register(@Valid @RequestBody UserCreateDto dto) {
         return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
@@ -46,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("{userId}")
-    public ResponseEntity<UserDto> update(@PathVariable Integer userId, @RequestBody UserUpdateDto dto) {
+    public ResponseEntity<UserDto> update(@PathVariable Integer userId, @Valid @RequestBody UserUpdateDto dto) {
         return new ResponseEntity<>(service.update(userId, dto), HttpStatus.OK);
     }
 
