@@ -3,6 +3,7 @@ package de.telran.onlineshopgarden.controller;
 import de.telran.onlineshopgarden.dto.OrderCreateDto;
 import de.telran.onlineshopgarden.dto.OrderDto;
 import de.telran.onlineshopgarden.service.OrderService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class OrderController {
 
     @PostMapping("{userId}")
     //TODO JWT user
-    public ResponseEntity<OrderDto> create(@RequestBody OrderCreateDto orderCreateDto, @PathVariable int userId) {
+    public ResponseEntity<OrderDto> create(@Valid @RequestBody OrderCreateDto orderCreateDto, @PathVariable int userId) {
         return new ResponseEntity<>(service.create(orderCreateDto, userId), HttpStatus.CREATED);
     }
 }

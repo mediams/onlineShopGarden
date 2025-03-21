@@ -14,13 +14,18 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDto {
-    private String orderId;
-    private String userId;
-    private String deliveryAddress;
-    private String contactPhone;
-    private DeliveryMethod deliveryMethod;
-    private OrderStatus status;
 
+    private String orderId;
+
+    private String userId;
+
+    private String deliveryAddress;
+
+    private String contactPhone;
+
+    private DeliveryMethod deliveryMethod;
+
+    private OrderStatus status;
 
     private List<OrderItemDto> items;
 }

@@ -1,5 +1,6 @@
 package de.telran.onlineshopgarden.dto;
 
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItemDto {
+
     private String productId;
-    private Integer quantity;
+
+    @Min(value = 1, message = "{validation.orderItem.quantityMin}")
+    private int quantity;
 }
