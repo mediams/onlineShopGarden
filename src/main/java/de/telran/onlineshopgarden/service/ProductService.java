@@ -1,6 +1,5 @@
 package de.telran.onlineshopgarden.service;
 
-import de.telran.onlineshopgarden.dto.ProductCreateDto;
 import de.telran.onlineshopgarden.dto.ProductDto;
 import de.telran.onlineshopgarden.entity.Product;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
@@ -37,8 +36,8 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDto create(ProductCreateDto dto) {
-        Product product = mapper.createDtoToEntity(dto);
+    public ProductDto create(ProductDto dto) {
+        Product product = mapper.createOrUpdateDtoToEntity(dto);
         product.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
         return mapper.entityToDto(repository.save(product));
     }
@@ -49,7 +48,7 @@ public class ProductService {
             throw new ResourceNotFoundException(String.format("Product with id %d not found", id));
         }
 
-        Product product = mapper.updateDtoToEntity(dto);
+        Product product = mapper.createOrUpdateDtoToEntity(dto);
         product.setProductId(id);
         product.setCategory(categoryRepository.getReferenceById(dto.getCategoryId()));
 

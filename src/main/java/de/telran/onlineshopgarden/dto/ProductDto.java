@@ -38,5 +38,6 @@ public class ProductDto {
     @Pattern(regexp = "^https://[^\\s/$.?#][^\\s]{0,140}\\.(jpg|jpeg|png)(\\?.*)?$", message = "{validation.product.imageValidation}")
     private String image;
 
+    @DecimalMin(value = "0.0", message = "{validation.product.discountPrice}")
     private BigDecimal discountPrice;
 }

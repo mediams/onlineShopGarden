@@ -1,6 +1,5 @@
 package de.telran.onlineshopgarden.controller;
 
-import de.telran.onlineshopgarden.dto.ProductCreateDto;
 import de.telran.onlineshopgarden.dto.ProductDto;
 import de.telran.onlineshopgarden.service.ProductService;
 import jakarta.validation.Valid;
@@ -32,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<ProductDto> create(@Valid @RequestBody ProductCreateDto dto) {
+    public ResponseEntity<ProductDto> create(@Valid @RequestBody ProductDto dto) {
         return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
