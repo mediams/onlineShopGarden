@@ -3,7 +3,6 @@ package de.telran.onlineshopgarden.scheduler;
 import de.telran.onlineshopgarden.entity.Order;
 import de.telran.onlineshopgarden.entity.enums.OrderStatus;
 import de.telran.onlineshopgarden.repository.OrderRepository;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -25,8 +24,7 @@ public class ScheduledTask {
     public void taskChangeOrderStatusForDelivery() {
         List<Order> orders = orderRepository.findByStatusNotIn(List.of(OrderStatus.CANCELED, OrderStatus.DELIVERED));
         for (Order order : orders) {
-            OrderStatus nextStatus = order.getStatus().next();
-            order.setStatus(nextStatus);
+            order.setStatus(order.getStatus().next());
             orderRepository.save(order);
         }
     }
