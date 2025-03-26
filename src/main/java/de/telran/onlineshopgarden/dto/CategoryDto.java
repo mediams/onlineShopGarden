@@ -17,7 +17,7 @@ public class CategoryDto {
 
     @NotBlank(message = "{validation.category.name}")
     @Pattern(regexp = "^[A-Z][A-Za-z -]{3,100}$", message = "{validation.category.nameSize}")
-    private String name;
+    private String category;
 
     @NotBlank(message = "{validation.category.imageUrlNotBlank}")
     @Pattern(regexp = "^(https?://)?([\\w\\d.-]+)\\.([a-z]{2,6}\\.?)([/\\w\\d.-]*)*/?$",
