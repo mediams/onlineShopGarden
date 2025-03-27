@@ -12,7 +12,7 @@ import java.util.Arrays;
 @Component
 public class LogAspect {
 
-    @Pointcut("within(de.telran.onlineshopgarden.service..*) || within(de.telran.onlineshopgarden.exception..*)")
+    @Pointcut("within(de.telran.onlineshopgarden.service..*) || within(de.telran.onlineshopgarden.exception.GlobalExceptionHandler)")
     public void methodExecuting() {
     }
 
