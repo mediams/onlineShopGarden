@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+// delete CONTROLLER
 @RestController
 @RequestMapping("/orderitems")
 public class OrderItemController {
@@ -22,11 +23,13 @@ public class OrderItemController {
         this.service = service;
     }
 
+    // delete CONTROLLER
     @GetMapping("/all")
     public ResponseEntity<List<OrderItemFullDto>> getAll() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
+    // delete CONTROLLER
     @GetMapping("{id}")
     public ResponseEntity<OrderItemFullDto> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(service.getById(id));

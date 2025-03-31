@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +24,13 @@ public class UserController {
         this.service = service;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping("/all")
     public List<UserDto> getAll() {
         return service.getAll();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping("{userId}")
     public UserDto getById(@PathVariable Integer userId) {
         return service.getById(userId);
@@ -44,11 +47,13 @@ public class UserController {
         throw new UnsupportedOperationException();
     }
 
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     @PutMapping("{userId}")
     public ResponseEntity<UserDto> update(@PathVariable Integer userId, @Valid @RequestBody UserUpdateDto dto) {
         return new ResponseEntity<>(service.update(userId, dto), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     @DeleteMapping("{userId}")
     public ResponseEntity<Void> mask(@PathVariable Integer userId) {
         service.mask(userId);

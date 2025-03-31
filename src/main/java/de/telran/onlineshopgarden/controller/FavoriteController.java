@@ -20,6 +20,7 @@ public class FavoriteController {
         this.service = service;
     }
 
+    // user with auth
     @PostMapping
     public ResponseEntity<Void> addToFavorites(@RequestParam Integer userId, @RequestParam Integer productId) {
         // TODO: JWT аутентификация
@@ -27,6 +28,7 @@ public class FavoriteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // user with auth
     @GetMapping
     public ResponseEntity<List<ProductDto>> getUserFavorites(@RequestParam Integer userId) {
         // TODO: JWT аутентификация
@@ -34,6 +36,7 @@ public class FavoriteController {
         return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 
+    //user with auth
     @DeleteMapping
     public ResponseEntity<Void> removeFromFavorites(@RequestParam Integer userId, @RequestParam Integer productId) {
         // TODO: JWT аутентификация
