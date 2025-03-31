@@ -1,7 +1,7 @@
 package de.telran.onlineshopgarden.repository;
 
 import de.telran.onlineshopgarden.entity.Product;
-import de.telran.onlineshopgarden.requests.ProductsFilterRequest;
+import de.telran.onlineshopgarden.dto.ProductsFilterRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

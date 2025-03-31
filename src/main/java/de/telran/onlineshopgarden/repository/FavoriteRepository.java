@@ -19,4 +19,7 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Integer> {
 
     @Modifying
     void deleteByUserUserId(Integer userId);
+
+    @Modifying
+    void deleteByProductProductId(Integer productId);
 }
