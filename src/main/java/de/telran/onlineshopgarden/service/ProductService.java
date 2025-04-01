@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class ProductService {
     private final ProductRepository repository;
     private final ProductMapper mapper;
@@ -39,8 +40,7 @@ public class ProductService {
     }
 
     public ProductDto getById(Integer id) {
-        Product product = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", id)));
+        Product product = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", id)));
         return mapper.entityToDto(product);
     }
 
@@ -66,8 +66,7 @@ public class ProductService {
 
     @Transactional
     public ProductDto setDiscountPrice(Integer productId, BigDecimal discountPrice) {
-        Product product = repository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", productId)));
+        Product product = repository.findById(productId).orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", productId)));
 
         if (discountPrice != null && (discountPrice.compareTo(new BigDecimal("0.00")) <= 0 || discountPrice.compareTo(product.getPrice()) >= 0)) {
             throw new BadRequestException("Discount price must be bigger than 0 and smaller than " + product.getPrice());
@@ -75,5 +74,11 @@ public class ProductService {
 
         product.setDiscountPrice(discountPrice);
         return mapper.entityToDto(product);
+    }
+
+    public ProductDto getProductOfTheDay() {
+        return repository.findProductWithHighestDiscount()
+                .map(mapper::entityToDto)
+                .orElseThrow(() -> new ResourceNotFoundException("No discounted products found"));
     }
 }
