@@ -24,7 +24,7 @@ public class WebConfig {
                         .allowedMethods("GET");
 
                 // (по желанию) добавить основное API, если ты тестируешь из Swagger
-                registry.addMapping("/users/**")
+                registry.addMapping("/**")
                         .allowedOrigins("*") // Или укажи конкретный хост: "https://onlineshopgarden-production.up.railway.app"
 //                        .allowedOrigins("https://onlineshopgarden-production.up.railway.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // обязательно OPTIONS!
