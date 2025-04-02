@@ -1,0 +1,12 @@
+target/
+.idea/
+*.iml
+*.log
+*.md
+*.sh
+*.bat
+.DS_Store
+.git
+.gitignore
+.vscode/
+.env
