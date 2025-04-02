@@ -50,8 +50,8 @@ public class UserController {
     }
 
     @DeleteMapping("{userId}")
-    public ResponseEntity<Void> delete(@PathVariable Integer userId) {
-        service.delete(userId);
+    public ResponseEntity<Void> mask(@PathVariable Integer userId) {
+        service.mask(userId);
         return ResponseEntity.ok().build();
     }
 }
