@@ -14,23 +14,27 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
 
-                // Разрешить CORS только для Swagger и API-доков
+                // Для Swagger UI
                 registry.addMapping("/swagger-ui/**")
                         .allowedOrigins("*")
-                        .allowedMethods("GET");
+                        .allowedMethods("GET")
+                        .allowedHeaders("Content-Type", "api_key", "Authorization")
+                        .allowCredentials(false);
 
+                // Для OpenAPI JSON
                 registry.addMapping("/v3/api-docs/**")
                         .allowedOrigins("*")
-                        .allowedMethods("GET");
+                        .allowedMethods("GET")
+                        .allowedHeaders("Content-Type", "api_key", "Authorization")
+                        .allowCredentials(false);
 
-                // (по желанию) добавить основное API, если ты тестируешь из Swagger
-                registry.addMapping("/**")
-                        .allowedOrigins("*") // Или укажи конкретный хост: "https://onlineshopgarden-production.up.railway.app"
-//                        .allowedOrigins("https://onlineshopgarden-production.up.railway.app")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // обязательно OPTIONS!
-                        .allowedHeaders("*")
+                // Для основного API, если нужно тестировать "Try it out"
+                registry.addMapping("/**") // либо "/api/**", если используешь префикс
+                        .allowedOrigins("*") // или конкретный домен
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("Content-Type", "api_key", "Authorization")
                         .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Headers")
-                        .allowCredentials(false); // если не используешь cookie
+                        .allowCredentials(false);
             }
         };
     }
