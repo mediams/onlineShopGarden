@@ -4,6 +4,7 @@ import de.telran.onlineshopgarden.dto.CartDto;
 import de.telran.onlineshopgarden.dto.CartItemAddDto;
 import de.telran.onlineshopgarden.entity.Cart;
 import de.telran.onlineshopgarden.entity.CartItem;
+import de.telran.onlineshopgarden.entity.User;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.CartItemMapper;
 import de.telran.onlineshopgarden.mapper.CartMapper;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@Transactional(readOnly = true)
 public class CartService {
     private final CartRepository repository;
     private final CartMapper mapper;
@@ -32,9 +34,9 @@ public class CartService {
 
     @Transactional
     public void addItem(CartItemAddDto dto, int userId) {
-
-        final Cart cart = repository.findByUserId(userId)
-                .orElse(new Cart(userId));
+        User user = userRepository.getReferenceById(userId);
+        final Cart cart = repository.findByUserUserId(userId)
+                .orElse(new Cart(user));
 
         CartItem cartItem = cartItemMapper.dtoToEntity(dto);
 
@@ -50,13 +52,13 @@ public class CartService {
     }
 
     public CartDto getByUserId(Integer userId) {
-        return repository.findByUserId(userId)
+        return repository.findByUserUserId(userId)
                 .map(mapper::entityToDto)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Cart by user with id %d not found", userId)));
     }
 
     @Transactional
     public void deleteByUserId(Integer userId) {
-        repository.deleteByUserId(userId);
+        repository.deleteByUserUserId(userId);
     }
 }

@@ -11,14 +11,15 @@ import de.telran.onlineshopgarden.mapper.OrderMapper;
 import de.telran.onlineshopgarden.repository.OrderRepository;
 import de.telran.onlineshopgarden.repository.ProductRepository;
 import de.telran.onlineshopgarden.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class OrderService {
     private final OrderRepository repository;
     private final UserRepository userRepository;
@@ -78,5 +79,19 @@ public class OrderService {
             throw new IllegalOrderStatusException("Order cannot be canceled in status: " + order.getStatus());
         }
         order.setStatus(OrderStatus.CANCELED);
+    }
+
+    @Transactional
+    public void anonymizeUserDataInOrders(Integer userId) {
+        List<Order> orders = repository.findAllByUserUserId(userId);
+
+        if (orders.stream().anyMatch(o -> o.getStatus() == OrderStatus.CREATED || o.getStatus() == OrderStatus.PENDING_PAYMENT || o.getStatus() == OrderStatus.PAID)) {
+            throw new IllegalOrderStatusException("User cannot be deleted because there is an active order pending payment or already paid.");
+        }
+
+        for (Order order : orders) {
+            order.setDeliveryAddress("Address removed");
+            order.setContactPhone("0000000000");
+        }
     }
 }
