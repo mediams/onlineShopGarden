@@ -3,7 +3,7 @@ package de.telran.onlineshopgarden.security;
 import de.telran.onlineshopgarden.dto.JwtRequest;
 import de.telran.onlineshopgarden.dto.JwtResponse;
 import de.telran.onlineshopgarden.entity.User;
-import de.telran.onlineshopgarden.service.UserService;
+import de.telran.onlineshopgarden.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
 import lombok.NonNull;
@@ -11,9 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Service class for handling authentication-related operations.
@@ -35,15 +32,10 @@ import java.util.Map;
 public class AuthService {
 
     /**
-     * The user service for fetching user data.
-     */
-    private final UserService userService;
-
-    /**
      * The JWT provider for generating and validating JWT tokens.
      */
     private final JwtProvider jwtProvider;
-
+    private final UserRepository userRepository;
     private final PasswordEncoder encoder;
 
     /**
@@ -54,13 +46,13 @@ public class AuthService {
      * @throws AuthException if the user is not found or the password is incorrect.
      */
     public JwtResponse login(@NonNull JwtRequest authRequest) throws AuthException {
-        final User user = userService.getByLogin(authRequest.getLogin())
+        final User user = userRepository.findUserByEmail(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException("User is not found"));
         if (encoder.matches(authRequest.getPassword(), user.getPasswordHash())) {
             final String accessToken = jwtProvider.generateAccessToken(user);
             final String refreshToken = jwtProvider.generateRefreshToken(user);
             user.setRefreshToken(refreshToken);
-            userService.save(user);
+            userRepository.save(user);
 //            refreshStorage.put(user.getEmail(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
@@ -91,7 +83,7 @@ public class AuthService {
             // Get the user login from the token claims
             final String login = claims.getSubject();
             // Fetch the user data
-            final User user = userService.getByLogin(login)
+            final User user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
             // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
@@ -131,7 +123,7 @@ public class AuthService {
             // Get the user login from the token claims
             final String login = claims.getSubject();
             // Fetch the user data
-            final User user = userService.getByLogin(login)
+            final User user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
             // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
@@ -142,7 +134,7 @@ public class AuthService {
                 final String newRefreshToken = jwtProvider.generateRefreshToken(user);
                 // Update the stored refresh token for the user
                 user.setRefreshToken(newRefreshToken);
-                userService.save(user);
+                userRepository.save(user);
                 // Return a JwtResponse with the new access and refresh tokens
                 return new JwtResponse(accessToken, newRefreshToken);
             }

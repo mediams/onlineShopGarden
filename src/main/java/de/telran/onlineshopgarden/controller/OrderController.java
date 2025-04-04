@@ -29,7 +29,7 @@ public class OrderController {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
-    // user with auth and orderId ??? oder delete nach
+    // delete nach
     @GetMapping("{orderId}")
     public ResponseEntity<OrderDto> getById(@PathVariable Integer orderId) {
         return ResponseEntity.ok(service.getById(orderId));
@@ -46,7 +46,7 @@ public class OrderController {
         return new ResponseEntity<>(service.create(orderCreateDto), HttpStatus.CREATED);
     }
 
-    // user with auth ???? dürch user order ?
+    // user with auth + user order
     @PatchMapping("{orderId}")
     public ResponseEntity<Void> cancelOrder(@PathVariable Integer orderId) {
         service.cancelOrder(orderId);

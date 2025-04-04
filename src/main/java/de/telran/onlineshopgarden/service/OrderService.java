@@ -14,7 +14,6 @@ import de.telran.onlineshopgarden.repository.ProductRepository;
 import de.telran.onlineshopgarden.repository.UserRepository;
 import de.telran.onlineshopgarden.security.AuthService;
 import de.telran.onlineshopgarden.security.JwtAuthentication;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,16 +29,14 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderMapper mapper;
     private final AuthService authService;
-    private final UserService userService;
 
     @Autowired
-    public OrderService(OrderRepository repository, UserRepository userRepository, ProductRepository productRepository, OrderMapper mapper, AuthService authService, UserService userService) {
+    public OrderService(OrderRepository repository, UserRepository userRepository, ProductRepository productRepository, OrderMapper mapper, AuthService authService) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.mapper = mapper;
         this.authService = authService;
-        this.userService = userService;
     }
 
     public List<OrderDto> getAll() {
@@ -56,7 +53,7 @@ public class OrderService {
     public List<OrderDto> getOrderHistory() {
         JwtAuthentication authentication = authService.getAuthInfo();
         String login = authentication.getLogin();
-        User user = userService.getByLogin(login).get();
+        User user = userRepository.findUserByEmail(login).get();
 
         List<Order> orders = repository.findAllByUserUserId(user.getUserId());
         return mapper.entityListToDtoList(orders);
@@ -66,7 +63,7 @@ public class OrderService {
     public OrderDto create(OrderCreateDto orderCreateDto) {
         JwtAuthentication authentication = authService.getAuthInfo();
         String login = authentication.getLogin();
-        User user = userService.getByLogin(login).get();
+        User user = userRepository.findUserByEmail(login).get();
 
         Order order = mapper.createDtoToEntity(orderCreateDto);
         order.getOrderItems().forEach(item -> {

@@ -93,7 +93,7 @@ public class UserService {
     }
 
     public Optional<User> getByLogin(String login) {
-        return repository.findAppUserByEmail(login);
+        return repository.findUserByEmail(login);
     }
 
     @Transactional
