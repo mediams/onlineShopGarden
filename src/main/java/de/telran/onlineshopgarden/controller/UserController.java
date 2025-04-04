@@ -1,9 +1,9 @@
 package de.telran.onlineshopgarden.controller;
 
-import de.telran.onlineshopgarden.dto.UserCreateDto;
-import de.telran.onlineshopgarden.dto.UserDto;
-import de.telran.onlineshopgarden.dto.UserUpdateDto;
+import de.telran.onlineshopgarden.dto.*;
+import de.telran.onlineshopgarden.security.AuthService;
 import de.telran.onlineshopgarden.service.UserService;
+import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +18,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService service;
+    private final AuthService authService;
 
     @Autowired
-    public UserController(UserService service) {
+    public UserController(UserService service, AuthService authService) {
         this.service = service;
+        this.authService = authService;
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
@@ -42,9 +44,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login() {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody JwtRequest authRequest) throws AuthException {
+        final JwtResponse token = authService.login(authRequest);
+        return ResponseEntity.ok(token);
     }
 
     @PreAuthorize("hasRole('ROLE_CLIENT')")
