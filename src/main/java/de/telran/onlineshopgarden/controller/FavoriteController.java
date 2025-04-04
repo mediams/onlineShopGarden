@@ -20,27 +20,21 @@ public class FavoriteController {
         this.service = service;
     }
 
-    // user with auth
     @PostMapping
-    public ResponseEntity<Void> addToFavorites(@RequestParam Integer userId, @RequestParam Integer productId) {
-        // TODO: JWT аутентификация
-        service.addToFavorites(userId, productId);
+    public ResponseEntity<Void> addToFavorites(@RequestParam Integer productId) {
+        service.addToFavorites(productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // user with auth
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getUserFavorites(@RequestParam Integer userId) {
-        // TODO: JWT аутентификация
-        List<ProductDto> favorites = service.getFavoriteProducts(userId);
+    public ResponseEntity<List<ProductDto>> getUserFavorites() {
+        List<ProductDto> favorites = service.getFavoriteProducts();
         return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 
-    //user with auth
     @DeleteMapping
-    public ResponseEntity<Void> removeFromFavorites(@RequestParam Integer userId, @RequestParam Integer productId) {
-        // TODO: JWT аутентификация
-        service.removeFromFavorites(userId, productId);
+    public ResponseEntity<Void> removeFromFavorites(@RequestParam Integer productId) {
+        service.removeFromFavorites(productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

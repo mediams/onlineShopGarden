@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -24,12 +23,6 @@ public class ProductController {
     @Autowired
     public ProductController(ProductService service) {
         this.service = service;
-    }
-
-    @GetMapping("/all")
-    // delete
-    public List<ProductDto> getAll() {
-        return service.getAll();
     }
 
     @GetMapping

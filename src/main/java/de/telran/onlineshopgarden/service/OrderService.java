@@ -51,8 +51,7 @@ public class OrderService {
     }
 
     public List<OrderDto> getOrderHistory() {
-        JwtAuthentication authentication = authService.getAuthInfo();
-        String login = authentication.getLogin();
+        String login = authService.getAuthInfo().getLogin();
         User user = userRepository.findUserByEmail(login).get();
 
         List<Order> orders = repository.findAllByUserUserId(user.getUserId());
@@ -61,8 +60,7 @@ public class OrderService {
 
     @Transactional
     public OrderDto create(OrderCreateDto orderCreateDto) {
-        JwtAuthentication authentication = authService.getAuthInfo();
-        String login = authentication.getLogin();
+        String login = authService.getAuthInfo().getLogin();
         User user = userRepository.findUserByEmail(login).get();
 
         Order order = mapper.createDtoToEntity(orderCreateDto);
@@ -84,9 +82,13 @@ public class OrderService {
     }
 
     @Transactional
-    public void cancelOrder(Integer orderId) {
-        Order order = repository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", orderId)));
+    public void cancelOrder() {
+        JwtAuthentication authentication = authService.getAuthInfo();
+        String login = authentication.getLogin();
+        User user = userRepository.findUserByEmail(login).get();
+        //TODO: überprüfen ob ich orderId bekomme
+        Order order = repository.findById(user.getOrders().get(0).getOrderId())
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", user.getOrders().get(0).getOrderId())));
 
         if (!(order.getStatus() == OrderStatus.CREATED || order.getStatus() == OrderStatus.PENDING_PAYMENT)) {
             throw new IllegalOrderStatusException("Order cannot be canceled in status: " + order.getStatus());

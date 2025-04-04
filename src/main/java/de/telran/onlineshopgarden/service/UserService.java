@@ -96,8 +96,4 @@ public class UserService {
         return repository.findUserByEmail(login);
     }
 
-    @Transactional
-    public void save(User user) {
-        repository.save(user);
-    }
 }

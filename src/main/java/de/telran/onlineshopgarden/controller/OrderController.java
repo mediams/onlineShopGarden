@@ -29,12 +29,6 @@ public class OrderController {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
-    // delete nach
-    @GetMapping("{orderId}")
-    public ResponseEntity<OrderDto> getById(@PathVariable Integer orderId) {
-        return ResponseEntity.ok(service.getById(orderId));
-    }
-
     @GetMapping("/history")
     public ResponseEntity<List<OrderDto>> getOrderHistory() {
         List<OrderDto> orderHistory = service.getOrderHistory();
@@ -46,10 +40,9 @@ public class OrderController {
         return new ResponseEntity<>(service.create(orderCreateDto), HttpStatus.CREATED);
     }
 
-    // user with auth + user order
     @PatchMapping("{orderId}")
-    public ResponseEntity<Void> cancelOrder(@PathVariable Integer orderId) {
-        service.cancelOrder(orderId);
+    public ResponseEntity<Void> cancelOrder() {
+        service.cancelOrder();
         return ResponseEntity.ok().build();
     }
 }
