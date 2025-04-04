@@ -53,7 +53,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authz -> authz
                                 .requestMatchers(
-                                        "/api/auth/login", // ???
                                         "/api/auth/token",
                                         "/swagger-ui.html",
                                         "/api/v1/auth/**",
@@ -61,11 +60,9 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/users/register",
                                         "/users/login"
-
                                 ).permitAll()
                                 .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
-//                                .requestMatchers("/orders").authenticated()
                                 .anyRequest().authenticated()
                 ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
