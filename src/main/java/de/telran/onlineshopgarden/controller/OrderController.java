@@ -41,8 +41,8 @@ public class OrderController {
     }
 
     @PatchMapping("{orderId}")
-    public ResponseEntity<Void> cancelOrder() {
-        service.cancelOrder();
+    public ResponseEntity<Void> cancelOrder(@PathVariable Integer orderId) {
+        service.cancelOrder(orderId);
         return ResponseEntity.ok().build();
     }
 }

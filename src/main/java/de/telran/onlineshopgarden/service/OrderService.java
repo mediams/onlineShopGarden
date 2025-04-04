@@ -6,6 +6,7 @@ import de.telran.onlineshopgarden.entity.Order;
 import de.telran.onlineshopgarden.entity.Product;
 import de.telran.onlineshopgarden.entity.User;
 import de.telran.onlineshopgarden.entity.enums.OrderStatus;
+import de.telran.onlineshopgarden.exception.AuthorizationDeniedException;
 import de.telran.onlineshopgarden.exception.IllegalOrderStatusException;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.OrderMapper;
@@ -13,7 +14,6 @@ import de.telran.onlineshopgarden.repository.OrderRepository;
 import de.telran.onlineshopgarden.repository.ProductRepository;
 import de.telran.onlineshopgarden.repository.UserRepository;
 import de.telran.onlineshopgarden.security.AuthService;
-import de.telran.onlineshopgarden.security.JwtAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,13 +80,15 @@ public class OrderService {
     }
 
     @Transactional
-    public void cancelOrder() {
-        JwtAuthentication authentication = authService.getAuthInfo();
-        String login = authentication.getLogin();
+    public void cancelOrder(Integer orderId) {
+        String login = authService.getAuthInfo().getLogin();
         User user = userRepository.findUserByEmail(login).get();
-        //TODO: überprüfen ob ich orderId bekomme
-        Order order = repository.findById(user.getOrders().get(0).getOrderId())
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", user.getOrders().get(0).getOrderId())));
+        Order order = repository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", orderId)));
+
+        if (!order.getUser().getUserId().equals(user.getUserId())) {
+            throw new AuthorizationDeniedException("You cannot cancel orders that don't belong to you");
+        }
 
         if (!(order.getStatus() == OrderStatus.CREATED || order.getStatus() == OrderStatus.PENDING_PAYMENT)) {
             throw new IllegalOrderStatusException("Order cannot be canceled in status: " + order.getStatus());
