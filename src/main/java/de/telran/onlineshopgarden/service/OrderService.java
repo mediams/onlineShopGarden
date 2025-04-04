@@ -53,7 +53,6 @@ public class OrderService {
     public List<OrderDto> getOrderHistory() {
         String login = authService.getAuthInfo().getLogin();
         User user = userRepository.findUserByEmail(login).get();
-
         List<Order> orders = repository.findAllByUserUserId(user.getUserId());
         return mapper.entityListToDtoList(orders);
     }
@@ -62,7 +61,6 @@ public class OrderService {
     public OrderDto create(OrderCreateDto orderCreateDto) {
         String login = authService.getAuthInfo().getLogin();
         User user = userRepository.findUserByEmail(login).get();
-
         Order order = mapper.createDtoToEntity(orderCreateDto);
         order.getOrderItems().forEach(item -> {
             Integer productId = item.getProductId();

@@ -16,4 +16,3 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 )
 public class SwaggerConfig {
 }
-

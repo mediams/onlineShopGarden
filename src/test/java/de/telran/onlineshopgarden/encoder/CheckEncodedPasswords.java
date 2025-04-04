@@ -10,5 +10,4 @@ public class CheckEncodedPasswords {
         System.out.println(encoder.encode("hashedpassword1"));
     }
 
-
 }

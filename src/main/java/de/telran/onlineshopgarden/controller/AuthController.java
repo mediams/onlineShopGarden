@@ -1,9 +1,8 @@
 package de.telran.onlineshopgarden.controller;
 
-import de.telran.onlineshopgarden.security.AuthService;
-import de.telran.onlineshopgarden.dto.JwtRequest;
 import de.telran.onlineshopgarden.dto.JwtRequestRefresh;
 import de.telran.onlineshopgarden.dto.JwtResponse;
+import de.telran.onlineshopgarden.security.AuthService;
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -66,4 +65,3 @@ public class AuthController {
     }
 
 }
-

@@ -53,7 +53,6 @@ public class AuthService {
             final String refreshToken = jwtProvider.generateRefreshToken(user);
             user.setRefreshToken(refreshToken);
             userRepository.save(user);
-//            refreshStorage.put(user.getEmail(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
             throw new AuthException("Wrong password");
@@ -76,28 +75,19 @@ public class AuthService {
      * @throws AuthException if the user is not found.
      */
     public JwtResponse getAccessToken(@NonNull String refreshToken) throws AuthException {
-        // Validate the provided refresh token
         if (jwtProvider.validateRefreshToken(refreshToken)) {
-            // Extract claims from the refresh token
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
-            // Get the user login from the token claims
             final String login = claims.getSubject();
-            // Fetch the user data
             final User user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
-            // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
-            // Compare the stored refresh token with the provided token
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
-                // Generate a new access token
                 final String accessToken = jwtProvider.generateAccessToken(user);
-                // Return a JwtResponse with the new access token
                 return new JwtResponse(accessToken, null);
             }
         }
         throw new AuthException("Token is not valid");
     }
-
 
     /**
      * Refreshes both access and refresh tokens using a valid refresh token.
@@ -116,33 +106,22 @@ public class AuthService {
      * @throws AuthException if the refresh token is invalid or the user is not found.
      */
     public JwtResponse refresh(@NonNull String refreshToken) throws AuthException {
-        // Validate the provided refresh token
         if (jwtProvider.validateRefreshToken(refreshToken)) {
-            // Extract claims from the refresh token
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
-            // Get the user login from the token claims
             final String login = claims.getSubject();
-            // Fetch the user data
             final User user = userRepository.findUserByEmail(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
-            // Retrieve the stored refresh token for the user
             final String savedRefreshToken = user.getRefreshToken();
-            // Compare the stored refresh token with the provided token
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
-                // Generate new access and refresh tokens
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(user);
-                // Update the stored refresh token for the user
                 user.setRefreshToken(newRefreshToken);
                 userRepository.save(user);
-                // Return a JwtResponse with the new access and refresh tokens
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }
-        // Throw an AuthException if validation fails
         throw new AuthException("Invalid JWT token");
     }
-
 
     /**
      * Retrieves the authentication information from the security context.

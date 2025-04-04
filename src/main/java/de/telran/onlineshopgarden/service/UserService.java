@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -90,10 +89,6 @@ public class UserService {
         user.setEmail("deleted_" + id + "@example.com");
         user.setPhoneNumber("0000000000");
         user.setPasswordHash("DELETED");
-    }
-
-    public Optional<User> getByLogin(String login) {
-        return repository.findUserByEmail(login);
     }
 
 }
