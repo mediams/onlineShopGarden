@@ -1,7 +1,6 @@
 package de.telran.onlineshopgarden.mapper;
 
 import de.telran.onlineshopgarden.dto.CartItemAddDto;
-import de.telran.onlineshopgarden.dto.CartItemDto;
 import de.telran.onlineshopgarden.entity.CartItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,5 +12,4 @@ public interface CartItemMapper {
     @Mapping(target = "cartId", ignore = true)
     CartItem dtoToEntity(CartItemAddDto dto);
 
-    CartItemDto entityToDto(CartItem entity);
 }

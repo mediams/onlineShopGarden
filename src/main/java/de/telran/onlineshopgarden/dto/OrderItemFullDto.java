@@ -15,8 +15,6 @@ public class OrderItemFullDto {
 
     private String orderItemId;
 
-    private String orderId;
-
     private String productId;
 
     private int quantity;

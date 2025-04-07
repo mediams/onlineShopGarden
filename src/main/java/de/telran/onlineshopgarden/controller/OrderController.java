@@ -29,6 +29,11 @@ public class OrderController {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("{orderId}")
+    public ResponseEntity<OrderDto> getById(@PathVariable Integer orderId) {
+        return ResponseEntity.ok(service.getById(orderId));
+    }
+
     @GetMapping("/history")
     public ResponseEntity<List<OrderDto>> getOrderHistory() {
         List<OrderDto> orderHistory = service.getOrderHistory();

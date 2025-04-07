@@ -4,6 +4,7 @@ import de.telran.onlineshopgarden.dto.ProductDto;
 import de.telran.onlineshopgarden.requests.ProductsFilterRequest;
 import de.telran.onlineshopgarden.service.ProductService;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public class ProductController {
     @GetMapping
     public Page<ProductDto> getProducts(
             ProductsFilterRequest filterRequest,
-            @PageableDefault(size = 5, sort = "name") Pageable pageable
+            @ParameterObject @PageableDefault(size = 5, sort = "name") Pageable pageable
     ) {
         return service.getFiltered(filterRequest, pageable);
     }

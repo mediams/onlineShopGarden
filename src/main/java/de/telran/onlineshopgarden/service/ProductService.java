@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,10 +28,6 @@ public class ProductService {
         this.repository = repository;
         this.mapper = mapper;
         this.categoryRepository = categoryRepository;
-    }
-
-    public List<ProductDto> getAll() {
-        return mapper.entityListToDtoList(repository.findAll());
     }
 
     public Page<ProductDto> getFiltered(ProductsFilterRequest filterRequest, Pageable pageable) {

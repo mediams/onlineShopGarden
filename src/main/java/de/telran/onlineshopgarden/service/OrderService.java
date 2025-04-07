@@ -6,7 +6,7 @@ import de.telran.onlineshopgarden.entity.Order;
 import de.telran.onlineshopgarden.entity.Product;
 import de.telran.onlineshopgarden.entity.User;
 import de.telran.onlineshopgarden.entity.enums.OrderStatus;
-import de.telran.onlineshopgarden.exception.AuthorizationDeniedException;
+import de.telran.onlineshopgarden.exception.AccessForbiddenException;
 import de.telran.onlineshopgarden.exception.IllegalOrderStatusException;
 import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.OrderMapper;
@@ -44,8 +44,16 @@ public class OrderService {
     }
 
     public OrderDto getById(Integer orderId) {
+        String login = authService.getAuthInfo().getLogin();
+        User user = userRepository.findUserByEmail(login).get();
         Order order = repository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", orderId)));
+
+        boolean isAdmin = authService.getAuthInfo().getRoles().stream()
+                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMINISTRATOR"));
+        if (!order.getUser().getUserId().equals(user.getUserId()) && !isAdmin) {
+            throw new AccessForbiddenException("You cannot view orders that don't belong to you");
+        }
 
         return mapper.entityToDto(order);
     }
@@ -87,7 +95,7 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", orderId)));
 
         if (!order.getUser().getUserId().equals(user.getUserId())) {
-            throw new AuthorizationDeniedException("You cannot cancel orders that don't belong to you");
+            throw new AccessForbiddenException("You cannot cancel orders that don't belong to you");
         }
 
         if (!(order.getStatus() == OrderStatus.CREATED || order.getStatus() == OrderStatus.PENDING_PAYMENT)) {
