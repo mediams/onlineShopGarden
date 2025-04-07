@@ -27,5 +27,5 @@ public class OrderDto {
 
     private OrderStatus status;
 
-    private List<OrderItemDto> items;
+    private List<OrderItemFullDto> items;
 }
