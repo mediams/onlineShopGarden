@@ -34,6 +34,14 @@ public class CartService {
         this.authService = authService;
     }
 
+    public CartDto getByUserId() {
+        String login = authService.getAuthInfo().getLogin();
+        User user = userRepository.findUserByEmail(login).get();
+        return repository.findByUserUserId(user.getUserId())
+                .map(mapper::entityToDto)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Cart by user with id %d not found", user.getUserId())));
+    }
+
     @Transactional
     public void addItem(CartItemAddDto dto) {
         String login = authService.getAuthInfo().getLogin();
@@ -48,18 +56,10 @@ public class CartService {
                 .findFirst()
                 .ifPresentOrElse(
                         i -> i.setQuantity(i.getQuantity() + dto.getQuantity()),
-                        () -> cart.getItems().add(new CartItem(null, cart.getCartId(), cartItem.getProductId(), cartItem.getQuantity()))
+                        () -> cart.getItems().add(new CartItem(null, cart, cartItem.getProductId(), cartItem.getQuantity()))
                 );
 
         repository.save(cart);
-    }
-
-    public CartDto getByUserId() {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
-        return repository.findByUserUserId(user.getUserId())
-                .map(mapper::entityToDto)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Cart by user with id %d not found", user.getUserId())));
     }
 
     @Transactional
