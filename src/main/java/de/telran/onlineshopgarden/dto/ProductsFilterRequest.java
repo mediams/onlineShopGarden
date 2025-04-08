@@ -1,4 +1,4 @@
-package de.telran.onlineshopgarden.requests;
+package de.telran.onlineshopgarden.dto;
 
 import lombok.Getter;
 import lombok.Setter;

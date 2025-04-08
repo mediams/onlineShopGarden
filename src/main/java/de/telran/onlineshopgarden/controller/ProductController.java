@@ -1,7 +1,7 @@
 package de.telran.onlineshopgarden.controller;
 
 import de.telran.onlineshopgarden.dto.ProductDto;
-import de.telran.onlineshopgarden.requests.ProductsFilterRequest;
+import de.telran.onlineshopgarden.dto.ProductsFilterRequest;
 import de.telran.onlineshopgarden.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,6 +43,12 @@ public class ProductController {
         return ResponseEntity.ok(service.getById(productId));
     }
 
+    @Operation(summary = "Get product with highest discount")
+    @GetMapping("/productOfTheDay")
+    public ResponseEntity<ProductDto> getProductOfTheDay() {
+        return ResponseEntity.ok(service.getProductOfTheDay());
+    }
+
     @Operation(summary = "Create new product")
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @PostMapping()
@@ -66,9 +72,10 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @Operation(summary = "Get product with highest discount")
-    @GetMapping("/productOfTheDay")
-    public ResponseEntity<ProductDto> getProductOfTheDay() {
-        return ResponseEntity.ok(service.getProductOfTheDay());
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @DeleteMapping("{productId}")
+    public ResponseEntity<Valid> delete(@PathVariable Integer productId) {
+        service.delete(productId);
+        return ResponseEntity.ok().build();
     }
 }
