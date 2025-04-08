@@ -77,10 +77,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public void handleNoResourceFound(NoResourceFoundException ignored) {
+        // Intentionally left empty to ignore the error in the absence of favicon.ico
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleServerException(Exception e) {
-        return new ResponseEntity<>("Some error on the server. Please try again later", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }
