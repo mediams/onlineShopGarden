@@ -21,7 +21,6 @@ import java.util.Set;
 public class JwtProvider {
 
     private final SecretKey jwtAccessSecret;
-
     private final SecretKey jwtRefreshSecret;
 
     public JwtProvider(
@@ -41,7 +40,7 @@ public class JwtProvider {
                 .expiration(accessExpiration)
                 .signWith(jwtAccessSecret)
                 .claim("roles", Set.of(user.getRole()))
-                .claim("firstName", user.getName())
+                .claim("name", user.getName())
                 .compact();
     }
 
