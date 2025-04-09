@@ -44,13 +44,11 @@ public class OrderService {
     }
 
     public OrderDto getById(Integer orderId) {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
         Order order = repository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", orderId)));
+        User user = authService.getCurrentUser();
 
-        boolean isAdmin = authService.getAuthInfo().getRoles().stream()
-                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMINISTRATOR"));
+        boolean isAdmin = authService.isCurrentUserAdmin();
         if (!order.getUser().getUserId().equals(user.getUserId()) && !isAdmin) {
             throw new AccessForbiddenException("You cannot view orders that don't belong to you");
         }
@@ -59,16 +57,14 @@ public class OrderService {
     }
 
     public List<OrderDto> getOrderHistory() {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         List<Order> orders = repository.findAllByUserUserId(user.getUserId());
         return mapper.entityListToDtoList(orders);
     }
 
     @Transactional
     public OrderDto create(OrderCreateDto orderCreateDto) {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         Order order = mapper.createDtoToEntity(orderCreateDto);
         order.getOrderItems().forEach(item -> {
             Integer productId = item.getProductId();
@@ -89,10 +85,9 @@ public class OrderService {
 
     @Transactional
     public void cancelOrder(Integer orderId) {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
         Order order = repository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Order with id %d not found", orderId)));
+        User user = authService.getCurrentUser();
 
         if (!order.getUser().getUserId().equals(user.getUserId())) {
             throw new AccessForbiddenException("You cannot cancel orders that don't belong to you");

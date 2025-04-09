@@ -7,7 +7,6 @@ import de.telran.onlineshopgarden.entity.User;
 import de.telran.onlineshopgarden.mapper.ProductMapper;
 import de.telran.onlineshopgarden.repository.FavoriteRepository;
 import de.telran.onlineshopgarden.repository.ProductRepository;
-import de.telran.onlineshopgarden.repository.UserRepository;
 import de.telran.onlineshopgarden.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,26 +20,22 @@ public class FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
     private final ProductMapper productMapper;
     private final AuthService authService;
 
     @Autowired
     public FavoriteService(FavoriteRepository favoriteRepository,
                            ProductRepository productRepository,
-                           UserRepository userRepository,
                            ProductMapper productMapper, AuthService authService) {
         this.favoriteRepository = favoriteRepository;
         this.productRepository = productRepository;
-        this.userRepository = userRepository;
         this.productMapper = productMapper;
         this.authService = authService;
     }
 
     @Transactional
     public void addToFavorites(Integer productId) {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         if (favoriteRepository.existsByUserUserIdAndProductProductId(user.getUserId(), productId)) {
             return;
         }
@@ -54,8 +49,7 @@ public class FavoriteService {
     }
 
     public List<ProductDto> getFavoriteProducts() {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         List<Product> productList = favoriteRepository.findByUserUserId(user.getUserId()).stream()
                 .map(Favorite::getProduct)
                 .collect(Collectors.toList());
@@ -64,8 +58,7 @@ public class FavoriteService {
 
     @Transactional
     public void removeFromFavorites(Integer productId) {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         favoriteRepository.deleteByUserUserIdAndProductProductId(user.getUserId(), productId);
     }
 }
