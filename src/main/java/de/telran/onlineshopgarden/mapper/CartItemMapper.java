@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 public interface CartItemMapper {
 
     @Mapping(target = "cartItemId", ignore = true)
-    @Mapping(target = "cartId", ignore = true)
+    @Mapping(target = "cart", ignore = true)
     CartItem dtoToEntity(CartItemAddDto dto);
-
 }

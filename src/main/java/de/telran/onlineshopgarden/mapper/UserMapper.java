@@ -18,10 +18,9 @@ public interface UserMapper {
 
     @Mapping(target = "refreshToken", ignore = true)
     @Mapping(target = "orders", ignore = true)
-    @Mapping(target = "cart", ignore = true)
     @Mapping(target = "phoneNumber", source = "phone")
     @Mapping(target = "passwordHash", ignore = true)
-    @Mapping(target = "role", constant = "CLIENT")  // todo (with security) ???
+    @Mapping(target = "role", constant = "CLIENT")
     @Mapping(target = "userId", ignore = true)
     User createDtoToEntity(UserCreateDto dto);
 }
