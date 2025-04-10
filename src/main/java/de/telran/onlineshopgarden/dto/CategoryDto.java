@@ -20,7 +20,7 @@ public class CategoryDto {
     private String category;
 
     @NotBlank(message = "{validation.category.imageUrlNotBlank}")
-    @Pattern(regexp = "^(https?://)?([\\w\\d.-]+)\\.([a-z]{2,6}\\.?)([/\\w\\d.-]*)*/?$",
+    @Pattern(regexp = "^https://[^\\s/$.?#][^\\s]{0,140}\\.(jpg|jpeg|png)(\\?.*)?$",
             message = "{validation.category.imageUrlNotValid}")
     private String imageUrl;
 }

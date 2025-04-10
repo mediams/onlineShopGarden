@@ -16,7 +16,7 @@ import lombok.Setter;
 public class UserCreateDto {
 
     @NotBlank(message = "{validation.user.nameNotBlank}")
-    @Size(min = 2, max = 50, message = "{validation.user.nameSize}")
+    @Pattern(regexp = "^(?!null$)(?=.{2,50}$)[A-Z][a-z]+ [A-Z][a-z]+$", message = "{validation.user.name}")
     private String name;
 
     @NotBlank(message = "{validation.user.emailNotBlank}")

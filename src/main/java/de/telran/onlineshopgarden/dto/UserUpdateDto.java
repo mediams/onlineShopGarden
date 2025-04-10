@@ -2,7 +2,6 @@ package de.telran.onlineshopgarden.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,7 @@ import lombok.Setter;
 public class UserUpdateDto {
 
     @NotBlank(message = "{validation.user.nameNotBlank}")
-    @Size(min = 2, max = 50, message = "{validation.user.nameSize}")
+    @Pattern(regexp = "^(?!null$)(?=.{2,50}$)[A-Z][a-z]+ [A-Z][a-z]+$", message = "{validation.user.name}")
     private String name;
 
     @NotBlank(message = "{validation.user.phoneNotBlank}")
