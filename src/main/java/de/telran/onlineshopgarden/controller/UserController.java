@@ -1,10 +1,9 @@
 package de.telran.onlineshopgarden.controller;
 
+import de.telran.onlineshopgarden.controller.api.UserControllerApi;
 import de.telran.onlineshopgarden.dto.*;
 import de.telran.onlineshopgarden.security.AuthService;
 import de.telran.onlineshopgarden.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@Tag(name = "Users", description = "REST API for managing users in the app")
-public class UserController {
+public class UserController implements UserControllerApi {
 
     private final UserService service;
     private final AuthService authService;
@@ -29,41 +27,35 @@ public class UserController {
         this.authService = authService;
     }
 
-    @Operation(summary = "Get all users")
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping("/all")
-    public List<UserDto> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<UserDto>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
-    @Operation(summary = "Get user by id")
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @GetMapping("{userId}")
-    public UserDto getById(@PathVariable Integer userId) {
-        return service.getById(userId);
+    public ResponseEntity<UserDto> getById(@PathVariable Integer userId) {
+        return ResponseEntity.ok(service.getById(userId));
     }
 
-    @Operation(summary = "Register new user")
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@Valid @RequestBody UserCreateDto dto) {
         return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Login user")
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody JwtRequest authRequest) throws AuthException {
         final JwtResponse token = authService.login(authRequest);
         return ResponseEntity.ok(token);
     }
 
-    @Operation(summary = "Update user by id")
     @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMINISTRATOR')")
     @PutMapping("{userId}")
     public ResponseEntity<UserDto> update(@PathVariable Integer userId, @Valid @RequestBody UserUpdateDto dto) {
-        return new ResponseEntity<>(service.update(userId, dto), HttpStatus.OK);
+        return ResponseEntity.ok(service.update(userId, dto));
     }
 
-    @Operation(summary = "Delete user by id")
     @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMINISTRATOR')")
     @DeleteMapping("{userId}")
     public ResponseEntity<Void> mask(@PathVariable Integer userId) {
