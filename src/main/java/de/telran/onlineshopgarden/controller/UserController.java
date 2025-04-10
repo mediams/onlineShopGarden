@@ -3,9 +3,9 @@ package de.telran.onlineshopgarden.controller;
 import de.telran.onlineshopgarden.dto.*;
 import de.telran.onlineshopgarden.security.AuthService;
 import de.telran.onlineshopgarden.service.UserService;
-import jakarta.security.auth.message.AuthException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,14 +57,14 @@ public class UserController {
     }
 
     @Operation(summary = "Update user by id")
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMINISTRATOR')")
     @PutMapping("{userId}")
     public ResponseEntity<UserDto> update(@PathVariable Integer userId, @Valid @RequestBody UserUpdateDto dto) {
         return new ResponseEntity<>(service.update(userId, dto), HttpStatus.OK);
     }
 
     @Operation(summary = "Delete user by id")
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMINISTRATOR')")
     @DeleteMapping("{userId}")
     public ResponseEntity<Void> mask(@PathVariable Integer userId) {
         service.mask(userId);

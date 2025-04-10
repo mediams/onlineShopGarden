@@ -3,6 +3,7 @@ package de.telran.onlineshopgarden.security;
 import de.telran.onlineshopgarden.dto.JwtRequest;
 import de.telran.onlineshopgarden.dto.JwtResponse;
 import de.telran.onlineshopgarden.entity.User;
+import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
@@ -71,4 +72,15 @@ public class AuthService {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
+    public User getCurrentUser() {
+        JwtAuthentication authInfo = getAuthInfo();
+        String login = authInfo.getLogin();
+        return userRepository.findUserByEmail(login)
+                .orElseThrow(() -> new ResourceNotFoundException("User with email " + login + " not found"));
+    }
+
+    public boolean isCurrentUserAdmin() {
+        return getAuthInfo().getRoles().stream()
+                .anyMatch(role -> role.getAuthority().equals("ROLE_ADMINISTRATOR"));
+    }
 }

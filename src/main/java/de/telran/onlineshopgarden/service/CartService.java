@@ -44,8 +44,7 @@ public class CartService {
 
     @Transactional
     public void addItem(CartItemAddDto dto) {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         final Cart cart = repository.findByUserUserId(user.getUserId())
                 .orElse(new Cart(user));
 
@@ -64,8 +63,7 @@ public class CartService {
 
     @Transactional
     public void deleteByUserId() {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         repository.deleteByUserUserId(user.getUserId());
     }
 }

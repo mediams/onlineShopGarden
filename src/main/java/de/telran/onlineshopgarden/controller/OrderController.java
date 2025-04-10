@@ -34,6 +34,7 @@ public class OrderController {
     }
 
     @Operation(summary = "Get order by id")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_ADMINISTRATOR')")
     @GetMapping("{orderId}")
     public ResponseEntity<OrderDto> getById(@PathVariable Integer orderId) {
         return ResponseEntity.ok(service.getById(orderId));
