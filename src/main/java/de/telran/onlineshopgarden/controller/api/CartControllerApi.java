@@ -34,7 +34,7 @@ public interface CartControllerApi {
     ResponseEntity<Void> addItem(@Valid @RequestBody CartItemAddDto dto);
 
     @Operation(summary = "Remove cart by user id for the currently authenticated user",
-            description = "Deletes the shopping cart of the currently authenticated user with al items.")
+            description = "Deletes the shopping cart of the currently authenticated user with all items.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "401", description = "UNAUTHORIZED"),

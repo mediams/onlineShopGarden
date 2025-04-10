@@ -9,7 +9,6 @@ import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.CartItemMapper;
 import de.telran.onlineshopgarden.mapper.CartMapper;
 import de.telran.onlineshopgarden.repository.CartRepository;
-import de.telran.onlineshopgarden.repository.UserRepository;
 import de.telran.onlineshopgarden.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
