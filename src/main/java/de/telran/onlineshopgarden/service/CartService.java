@@ -9,7 +9,6 @@ import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.CartItemMapper;
 import de.telran.onlineshopgarden.mapper.CartMapper;
 import de.telran.onlineshopgarden.repository.CartRepository;
-import de.telran.onlineshopgarden.repository.UserRepository;
 import de.telran.onlineshopgarden.security.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,21 +21,18 @@ public class CartService {
     private final CartRepository repository;
     private final CartMapper mapper;
     private final CartItemMapper cartItemMapper;
-    private final UserRepository userRepository;
     private final AuthService authService;
 
     @Autowired
-    public CartService(CartRepository repository, CartMapper mapper, CartItemMapper cartItemMapper, UserRepository userRepository, AuthService authService) {
+    public CartService(CartRepository repository, CartMapper mapper, CartItemMapper cartItemMapper, AuthService authService) {
         this.repository = repository;
         this.mapper = mapper;
         this.cartItemMapper = cartItemMapper;
-        this.userRepository = userRepository;
         this.authService = authService;
     }
 
     public CartDto getByUserId() {
-        String login = authService.getAuthInfo().getLogin();
-        User user = userRepository.findUserByEmail(login).get();
+        User user = authService.getCurrentUser();
         return repository.findByUserUserId(user.getUserId())
                 .map(mapper::entityToDto)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Cart by user with id %d not found", user.getUserId())));

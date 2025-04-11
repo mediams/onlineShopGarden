@@ -1,5 +1,6 @@
 package de.telran.onlineshopgarden.controller;
 
+import de.telran.onlineshopgarden.controller.api.AuthControllerApi;
 import de.telran.onlineshopgarden.dto.JwtRequestRefresh;
 import de.telran.onlineshopgarden.dto.JwtResponse;
 import de.telran.onlineshopgarden.security.AuthService;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthControllerApi {
 
     private final AuthService authService;
 
@@ -29,5 +30,4 @@ public class AuthController {
         final JwtResponse token = authService.refresh(request.getRefreshToken());
         return ResponseEntity.ok(token);
     }
-
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
@@ -33,6 +34,14 @@ public class FavoriteService {
         this.authService = authService;
     }
 
+    public List<ProductDto> getFavoriteProducts() {
+        User user = authService.getCurrentUser();
+        List<Product> productList = favoriteRepository.findByUserUserId(user.getUserId()).stream()
+                .map(Favorite::getProduct)
+                .collect(Collectors.toList());
+        return productMapper.entityListToDtoList(productList);
+    }
+
     @Transactional
     public void addToFavorites(Integer productId) {
         User user = authService.getCurrentUser();
@@ -46,14 +55,6 @@ public class FavoriteService {
         favorite.setUser(user);
         favorite.setProduct(product);
         favoriteRepository.save(favorite);
-    }
-
-    public List<ProductDto> getFavoriteProducts() {
-        User user = authService.getCurrentUser();
-        List<Product> productList = favoriteRepository.findByUserUserId(user.getUserId()).stream()
-                .map(Favorite::getProduct)
-                .collect(Collectors.toList());
-        return productMapper.entityListToDtoList(productList);
     }
 
     @Transactional
