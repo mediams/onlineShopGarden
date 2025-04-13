@@ -4,9 +4,9 @@ import de.telran.onlineshopgarden.entity.Category;
 import de.telran.onlineshopgarden.entity.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -14,10 +14,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@TestPropertySource(properties = {
-        "spring.jpa.hibernate.ddl-auto=create-drop",
-        "spring.liquibase.enabled=false"
-})
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ProductRepositoryTest {
 
     @Autowired
@@ -26,38 +24,37 @@ class ProductRepositoryTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private TestEntityManager entityManager;
-
     @Test
-    void mustFindProductWithHighestDiscount() {
-        Category category = new Category();
-        category.setName("Test category");
-        category.setImageUrl("https://example.com/category.png");
-        entityManager.persist(category);
+    void findProductWithHighestDiscountMustReturnProductFromLiquibase() {
+        Optional<Product> productOpt = productRepository.findProductWithHighestDiscount();
 
-        Product product1 = new Product();
-        product1.setName("Product 1");
-        product1.setPrice(new BigDecimal("100"));
-        product1.setDiscountPrice(new BigDecimal("70"));
-        product1.setImageUrl("https://example.com/img1.jpg");
-        product1.setDescription("Test product 1");
-        product1.setCategory(category);
-        entityManager.persist(product1);
-
-        Product product2 = new Product();
-        product2.setName("Product 2");
-        product2.setPrice(new BigDecimal("100"));
-        product2.setDiscountPrice(new BigDecimal("80"));
-        product2.setImageUrl("https://example.com/img2.jpg");
-        product2.setDescription("Test product 2");
-        product2.setCategory(category);
-        entityManager.persist(product2);
-
-        Optional<Product> result = productRepository.findProductWithHighestDiscount();
-
-        assertTrue(result.isPresent());
-        assertEquals("Product 1", result.get().getName());
+        assertTrue(productOpt.isPresent(), "Product with discount must be found");
     }
 
+    @Test
+    void findProductWithHighestDiscountMustReturnNewProductWithMaxDiscount() {
+        Category category = categoryRepository.findById(1).orElseThrow();
+
+        Product newProduct = new Product();
+        newProduct.setName("Super Discount Product");
+        newProduct.setPrice(BigDecimal.valueOf(100));
+        newProduct.setDiscountPrice(BigDecimal.valueOf(30)); // 70% discount
+        newProduct.setCategory(category);
+        newProduct.setImageUrl("https://example.com/img_super_discount.jpg");
+        newProduct.setDescription("Test super discounted product");
+
+        productRepository.save(newProduct);
+
+        Optional<Product> productOpt = productRepository.findProductWithHighestDiscount();
+
+        assertTrue(productOpt.isPresent());
+        assertEquals("Super Discount Product", productOpt.get().getName(),
+                "Newly added product with highest discount must be returned");
+    }
+
+    @Test
+    void existsByCategoryCategoryIdMustReturnTrueForExistingCategory() {
+        boolean exists = productRepository.existsByCategoryCategoryId(1);
+        assertTrue(exists, "Category with id 1 must exist");
+    }
 }
