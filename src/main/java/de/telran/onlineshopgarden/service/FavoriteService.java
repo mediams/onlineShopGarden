@@ -4,6 +4,7 @@ import de.telran.onlineshopgarden.dto.ProductDto;
 import de.telran.onlineshopgarden.entity.Favorite;
 import de.telran.onlineshopgarden.entity.Product;
 import de.telran.onlineshopgarden.entity.User;
+import de.telran.onlineshopgarden.exception.ResourceNotFoundException;
 import de.telran.onlineshopgarden.mapper.ProductMapper;
 import de.telran.onlineshopgarden.repository.FavoriteRepository;
 import de.telran.onlineshopgarden.repository.ProductRepository;
@@ -36,7 +37,7 @@ public class FavoriteService {
 
     public List<ProductDto> getFavoriteProducts() {
         User user = authService.getCurrentUser();
-        List<Product> productList = favoriteRepository.findByUserUserId(user.getUserId()).stream()
+        List<Product> productList = user.getFavorites().stream()
                 .map(Favorite::getProduct)
                 .collect(Collectors.toList());
         return productMapper.entityListToDtoList(productList);
@@ -45,7 +46,9 @@ public class FavoriteService {
     @Transactional
     public void addToFavorites(Integer productId) {
         User user = authService.getCurrentUser();
-        if (favoriteRepository.existsByUserUserIdAndProductProductId(user.getUserId(), productId)) {
+
+        if (user.getFavorites().stream()
+                .anyMatch(f -> f.getProduct().getProductId().equals(productId))) {
             return;
         }
 
@@ -60,6 +63,12 @@ public class FavoriteService {
     @Transactional
     public void removeFromFavorites(Integer productId) {
         User user = authService.getCurrentUser();
-        favoriteRepository.deleteByUserUserIdAndProductProductId(user.getUserId(), productId);
+        Favorite favorite = user.getFavorites().stream()
+                .filter(f -> f.getProduct().getProductId().equals(productId)).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Product with id %d not found", productId)));
+        user.getFavorites().remove(favorite);
+        favorite.setUser(null);
+        favorite.setProduct(null);
+        favoriteRepository.delete(favorite);
     }
 }

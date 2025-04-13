@@ -58,8 +58,7 @@ public class OrderService {
 
     public List<OrderDto> getOrderHistory() {
         User user = authService.getCurrentUser();
-        List<Order> orders = repository.findAllByUserUserId(user.getUserId());
-        return mapper.entityListToDtoList(orders);
+        return mapper.entityListToDtoList(user.getOrders());
     }
 
     @Transactional
@@ -100,10 +99,11 @@ public class OrderService {
     }
 
     @Transactional
-    public void anonymizeUserDataInOrders(Integer userId) {
-        List<Order> orders = repository.findAllByUserUserId(userId);
-
-        if (orders.stream().anyMatch(o -> o.getStatus() == OrderStatus.CREATED || o.getStatus() == OrderStatus.PENDING_PAYMENT || o.getStatus() == OrderStatus.PAID)) {
+    public void anonymizeUserDataInOrders(User user) {
+        List<Order> orders = user.getOrders();
+        if (orders.stream().anyMatch(o -> o.getStatus() == OrderStatus.CREATED
+                || o.getStatus() == OrderStatus.PENDING_PAYMENT
+                || o.getStatus() == OrderStatus.PAID)) {
             throw new IllegalOrderStatusException("User cannot be deleted because there is an active order pending payment or already paid.");
         }
 
