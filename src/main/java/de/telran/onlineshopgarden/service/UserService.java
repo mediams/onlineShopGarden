@@ -74,7 +74,7 @@ public class UserService {
 
         favoriteRepository.deleteByUserUserId(id);
         cartRepository.deleteByUserUserId(id);
-        orderService.anonymizeUserDataInOrders(id);
+        orderService.anonymizeUserDataInOrders(user);
         anonymizeUserData(user);
     }
 
