@@ -26,9 +26,10 @@ class ProductRepositoryTest {
 
     @Test
     void findProductWithHighestDiscountMustReturnProductFromLiquibase() {
-        Optional<Product> productOpt = productRepository.findProductWithHighestDiscount();
+        Optional<Product> optional = productRepository.findProductWithHighestDiscount();
 
-        assertTrue(productOpt.isPresent(), "Product with discount must be found");
+        assertTrue(optional.isPresent(), "Product with discount must be found");
+        assertEquals("Shovel", optional.get().getName());
     }
 
     @Test
@@ -38,17 +39,17 @@ class ProductRepositoryTest {
         Product newProduct = new Product();
         newProduct.setName("Super Discount Product");
         newProduct.setPrice(BigDecimal.valueOf(100));
-        newProduct.setDiscountPrice(BigDecimal.valueOf(30)); // 70% discount
+        newProduct.setDiscountPrice(BigDecimal.valueOf(30));
         newProduct.setCategory(category);
         newProduct.setImageUrl("https://example.com/img_super_discount.jpg");
         newProduct.setDescription("Test super discounted product");
 
         productRepository.save(newProduct);
 
-        Optional<Product> productOpt = productRepository.findProductWithHighestDiscount();
+        Optional<Product> optional = productRepository.findProductWithHighestDiscount();
 
-        assertTrue(productOpt.isPresent());
-        assertEquals("Super Discount Product", productOpt.get().getName(),
+        assertTrue(optional.isPresent());
+        assertEquals("Super Discount Product", optional.get().getName(),
                 "Newly added product with highest discount must be returned");
     }
 
