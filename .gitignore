@@ -18,6 +18,7 @@ target/
 .env
 .env.docker
 .env.properties
+application.properties
 *.iws
 *.iml
 *.ipr

@@ -25,7 +25,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     env_file:
-      - .env.docker
+      - .env
     networks:
       - spring-net
 
