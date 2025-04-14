@@ -10,20 +10,20 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema gardenapp
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `gardenapp` ;
+DROP SCHEMA IF EXISTS  ;
 
 -- -----------------------------------------------------
 -- Schema gardenapp
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `gardenapp` DEFAULT CHARACTER SET utf8 ;
-USE `gardenapp` ;
+CREATE SCHEMA IF NOT EXISTS  DEFAULT CHARACTER SET utf8 ;
+USE  ;
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`categories`
+-- Table .`categories`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`categories` ;
+DROP TABLE IF EXISTS `categories` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`categories` (
+CREATE TABLE IF NOT EXISTS `categories` (
   `category_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) UNIQUE NOT NULL,
   `image_url` VARCHAR(255) NOT NULL,
@@ -33,11 +33,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`products`
+-- Table .`products`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`products` ;
+DROP TABLE IF EXISTS `products` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`products` (
+CREATE TABLE IF NOT EXISTS `products` (
   `product_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `description` TEXT NULL,
@@ -51,18 +51,18 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`products` (
   INDEX `fk_products_categories_idx` (`category_id` ASC) VISIBLE,
   CONSTRAINT `fk_products_categories`
     FOREIGN KEY (`category_id`)
-    REFERENCES `gardenapp`.`categories` (`category_id`)
+    REFERENCES `categories` (`category_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`users`
+-- Table .`users`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`users` ;
+DROP TABLE IF EXISTS `users` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `email` VARCHAR(45) UNIQUE NOT NULL,
@@ -75,11 +75,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`orders`
+-- Table .`orders`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`orders` ;
+DROP TABLE IF EXISTS `orders` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`orders` (
+CREATE TABLE IF NOT EXISTS `orders` (
   `order_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `delivery_address` VARCHAR(155) NOT NULL,
@@ -92,18 +92,18 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`orders` (
   INDEX `fk_orders_users1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_orders_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `gardenapp`.`users` (`user_id`)
+    REFERENCES `users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`order_items`
+-- Table .`order_items`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`order_items` ;
+DROP TABLE IF EXISTS `order_items` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`order_items` (
+CREATE TABLE IF NOT EXISTS `order_items` (
   `order_item_id` INT NOT NULL AUTO_INCREMENT,
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
@@ -114,41 +114,41 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`order_items` (
   INDEX `fk_order_items_products1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_order_items_orders1`
     FOREIGN KEY (`order_id`)
-    REFERENCES `gardenapp`.`orders` (`order_id`)
+    REFERENCES `orders` (`order_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_items_products1`
     FOREIGN KEY (`product_id`)
-    REFERENCES `gardenapp`.`products` (`product_id`)
+    REFERENCES `products` (`product_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`carts`
+-- Table .`carts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`carts` ;
+DROP TABLE IF EXISTS `carts` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`carts` (
+CREATE TABLE IF NOT EXISTS `carts` (
   `cart_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`cart_id`),
   INDEX `fk_carts_users1_idx` (`user_id` ASC) INVISIBLE,
   CONSTRAINT `fk_carts_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `gardenapp`.`users` (`user_id`)
+    REFERENCES `users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`cart_items`
+-- Table .`cart_items`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`cart_items` ;
+DROP TABLE IF EXISTS `cart_items` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`cart_items` (
+CREATE TABLE IF NOT EXISTS `cart_items` (
   `cart_item_id` INT NOT NULL AUTO_INCREMENT,
   `cart_id` INT NOT NULL,
   `product_id` INT NOT NULL,
@@ -158,23 +158,23 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`cart_items` (
   INDEX `fk_cart_items_products1_idx` (`product_id` ASC) INVISIBLE,
   CONSTRAINT `fk_cart_items_carts1`
     FOREIGN KEY (`cart_id`)
-    REFERENCES `gardenapp`.`carts` (`cart_id`)
+    REFERENCES `carts` (`cart_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_cart_items_products1`
     FOREIGN KEY (`product_id`)
-    REFERENCES `gardenapp`.`products` (`product_id`)
+    REFERENCES `products` (`product_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gardenapp`.`favorites`
+-- Table .`favorites`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `gardenapp`.`favorites` ;
+DROP TABLE IF EXISTS `favorites` ;
 
-CREATE TABLE IF NOT EXISTS `gardenapp`.`favorites` (
+CREATE TABLE IF NOT EXISTS `favorites` (
   `favorite_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `product_id` INT NOT NULL,
@@ -183,12 +183,12 @@ CREATE TABLE IF NOT EXISTS `gardenapp`.`favorites` (
   INDEX `fk_favorites_products1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_favorites_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `gardenapp`.`users` (`user_id`)
+    REFERENCES `users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_favorites_products1`
     FOREIGN KEY (`product_id`)
-    REFERENCES `gardenapp`.`products` (`product_id`)
+    REFERENCES `products` (`product_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
