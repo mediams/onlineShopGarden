@@ -2,6 +2,7 @@ package de.telran.onlineshopgarden.exception;
 
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+@Log4j2
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -73,5 +75,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public void handleNoResourceFound(NoResourceFoundException ignored) {
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleServerException(Exception e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>("Some error on the server. Please try again later", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
