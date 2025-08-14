@@ -20,7 +20,7 @@ public class ScheduledTask {
         this.orderRepository = orderRepository;
     }
 
-    @Scheduled(fixedRate = 1, timeUnit = TimeUnit.HOURS)
+    @Scheduled(fixedRate = 1, timeUnit = TimeUnit.DAYS)
     public void taskChangeOrderStatusForDelivery() {
         List<Order> orders = orderRepository.findByStatusNotIn(List.of(OrderStatus.CANCELED, OrderStatus.DELIVERED));
         for (Order order : orders) {
