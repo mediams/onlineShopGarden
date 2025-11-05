@@ -30,10 +30,10 @@ public class ProductController implements ProductControllerApi {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("all")
     public Page<ProductDto> getProducts(
             @ParameterObject ProductsFilterRequest filterRequest,
-            @ParameterObject @PageableDefault(size = 5, sort = "name") Pageable pageable
+            @ParameterObject @PageableDefault(size = 15, sort = "name") Pageable pageable
     ) {
         return service.getFiltered(filterRequest, pageable);
     }
