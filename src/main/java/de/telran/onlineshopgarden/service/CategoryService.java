@@ -32,8 +32,8 @@ public class CategoryService {
     }
 
     public CategoryDto getById(Integer id) {
-        Category category = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with id %d not found", id)));
+        Category category = repository.findByCategoryId(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category with id %d not found".formatted(id)));
         return mapper.entityToDto(category);
     }
 

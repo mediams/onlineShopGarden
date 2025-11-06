@@ -37,6 +37,7 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
     private BigDecimal discountPrice;
