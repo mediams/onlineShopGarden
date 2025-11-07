@@ -33,7 +33,7 @@ public class ProductController implements ProductControllerApi {
     @GetMapping("all")
     public Page<ProductDto> getProducts(
             @ParameterObject ProductsFilterRequest filterRequest,
-            @ParameterObject @PageableDefault(size = 15, sort = "name") Pageable pageable
+            @ParameterObject @PageableDefault(size = 60, sort = "name") Pageable pageable
     ) {
         return service.getFiltered(filterRequest, pageable);
     }
