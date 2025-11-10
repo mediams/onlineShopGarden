@@ -3,6 +3,8 @@
 **Online Shop Garden** is a web-based e-commerce application for selling gardening products.  
 It is developed in Java using the Spring Boot framework and follows a layered, modular architecture with RESTful APIs and database integration.
 
+[Demo Frontend + Backend](https://mediams.github.io/onlineShopGartenReact/)
+
 ## Features
 
 - Product browsing with optional category filtering
@@ -12,7 +14,7 @@ It is developed in Java using the Spring Boot framework and follows a layered, m
 - “Product of the Day” feature based on the highest absolute discount (price minus discount price)
 - Extendable administrative functionality
 
-[Schema image, db scripts and docs](https://github.com/BiOksana/onlineShopGarden/tree/master/docs)
+[Schema image, db scripts and docs](https://github.com/mediams/onlineShopGarden/tree/master/docs)
 
 ## Technology Stack
 
@@ -53,7 +55,7 @@ In case of multiple products with the same maximum discount, one is selected ran
 2. Run the application:
    mvn clean install spring-boot:start
 3. Access the service locally at:
-   https://onlineshopgarden-production.up.railway.app/swagger-ui/index.html#/
+   https://onlineshopgarden.onrender.com/swagger-ui/index.html
 4. USING Docker
 
    - Create Docker file:
