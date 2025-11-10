@@ -13,6 +13,9 @@ It is developed in Java using the Spring Boot framework and follows a layered, m
 - Favorites functionality for authenticated users
 - “Product of the Day” feature based on the highest absolute discount (price minus discount price)
 - Extendable administrative functionality
+  API Docs
+
+Prod (Swagger UI): https://onlineshopgarden.onrender.com/swagger-ui/index.html
 
 [Schema image, db scripts and docs](https://github.com/mediams/onlineShopGarden/tree/master/docs)
 
@@ -55,7 +58,7 @@ In case of multiple products with the same maximum discount, one is selected ran
 2. Run the application:
    mvn clean install spring-boot:start
 3. Access the service locally at:
-   https://onlineshopgarden.onrender.com/swagger-ui/index.html
+   http://localhost:8080/swagger-ui/index.html
 4. USING Docker
 
    - Create Docker file:
